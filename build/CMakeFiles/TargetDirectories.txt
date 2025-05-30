@@ -1,0 +1,3 @@
+C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/DS_RPG.dir
+C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/ZERO_CHECK.dir
