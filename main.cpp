@@ -1,11 +1,14 @@
-// === quadtree_world_bounded_hybrid.c ===
-// C SDL2 demo: finite quadtree-backed map with hybrid camera/player movement and invisible walls
+// === quadtree_world_bounded_hybrid.cpp ===
+// C++ SDL2 demo: finite quadtree-backed map with hybrid camera/player movement and invisible walls
 
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <SDL_image.h>
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <cstddef>
+#include <random>
 
 // Screen and tile dimensions
 #define SCREEN_WIDTH 800  // viewport width in pixels
@@ -23,23 +26,19 @@
 #define MAX_CAM_Y ((WORLD_ROWS * TILE_SIZE) - SCREEN_HEIGHT)
 
 // Data structures
-// Vec2: 2D integer coordinate key for tiles
 typedef struct
 {
     int x, y;
 } Vec2;
 
-// QuadtreeNode: stores static tile info (tree or grass)
 typedef struct
 {
     Vec2 key;
     bool hasTree;
 } QuadtreeNode;
 
-// Static storage for all tiles in finite world
 static QuadtreeNode worldNodes[WORLD_CAPACITY];
 
-// Initialize world map (finite grid), e.g., static tree pattern
 void initWorld()
 {
     int idx = 0;
@@ -47,8 +46,10 @@ void initWorld()
     {
         for (int x = 0; x < WORLD_COLS; ++x)
         {
-            bool tree = ((x + y) % 3 == 0); // example pattern
-            worldNodes[idx++] = (QuadtreeNode){.key = {x, y}, .hasTree = tree};
+            QuadtreeNode node;
+            node.key = {x, y};
+            node.hasTree = ((x + y) % 3 == 0);
+            worldNodes[idx++] = node;
         }
     }
 }
@@ -61,22 +62,40 @@ int main()
                                        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-    initWorld(); // preload tiles
+    initWorld();
 
-    // Player world and screen state
     int playerW = TILE_SIZE / 2, playerH = TILE_SIZE / 2;
-    // Start player at world center
     int worldPlayerX = (WORLD_COLS * TILE_SIZE) / 2 - playerW / 2;
     int worldPlayerY = (WORLD_ROWS * TILE_SIZE) / 2 - playerH / 2;
-    // Camera offset (top-left of viewport in world coords)
     int camX = 0, camY = 0;
 
     bool quit = false;
     SDL_Event e;
 
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
+    {
+        std::cerr << "IMG_Init Error: " << IMG_GetError() << "\n";
+        SDL_Quit();
+        return 1;
+    }
+
+    SDL_Surface *player = IMG_Load("playerAssets/playerIdle.png");
+    if (!player)
+    {
+        std::cerr << "player image loading Error: " << IMG_GetError() << "\n";
+        SDL_DestroyRenderer(ren);
+        SDL_DestroyWindow(win);
+        IMG_Quit();
+        SDL_Quit();
+        return 1;
+    }
+
+    SDL_Texture *playerTex = SDL_CreateTextureFromSurface(ren, player);
+    SDL_FreeSurface(player);
+    SDL_Rect dst{500, 300, 70, 70};
+
     while (!quit)
     {
-        // Input
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
@@ -102,10 +121,10 @@ int main()
                     dx = 10;
                     break;
                 }
-                // Compute new world position
+
                 int newWPX = worldPlayerX + dx;
                 int newWPY = worldPlayerY + dy;
-                // Invisible walls: clamp world position within [0, worldSize - playerSize]
+
                 if (newWPX < 0)
                     newWPX = 0;
                 if (newWPX > WORLD_COLS * TILE_SIZE - playerW)
@@ -114,34 +133,23 @@ int main()
                     newWPY = 0;
                 if (newWPY > WORLD_ROWS * TILE_SIZE - playerH)
                     newWPY = WORLD_ROWS * TILE_SIZE - playerH;
+
                 worldPlayerX = newWPX;
                 worldPlayerY = newWPY;
 
-                // Hybrid camera logic:
-                // If player approaches margin and camera can move, pan camera
                 int screenPX = worldPlayerX - camX;
                 int screenPY = worldPlayerY - camY;
-                // Left margin
+
                 if (screenPX < MARGIN)
-                {
                     camX = worldPlayerX - MARGIN;
-                }
-                // Right margin
                 else if (screenPX > SCREEN_WIDTH - MARGIN - playerW)
-                {
                     camX = worldPlayerX - (SCREEN_WIDTH - MARGIN - playerW);
-                }
-                // Top margin
+
                 if (screenPY < MARGIN)
-                {
                     camY = worldPlayerY - MARGIN;
-                }
-                // Bottom margin
                 else if (screenPY > SCREEN_HEIGHT - MARGIN - playerH)
-                {
                     camY = worldPlayerY - (SCREEN_HEIGHT - MARGIN - playerH);
-                }
-                // Clamp camera to world bounds to avoid black space
+
                 if (camX < 0)
                     camX = 0;
                 if (camX > MAX_CAM_X)
@@ -153,10 +161,9 @@ int main()
             }
         }
 
-        // Render
         SDL_SetRenderDrawColor(ren, 20, 20, 20, 255);
         SDL_RenderClear(ren);
-        // Draw all tiles, offset by camera
+
         for (int i = 0; i < WORLD_CAPACITY; ++i)
         {
             QuadtreeNode *n = &worldNodes[i];
@@ -170,19 +177,20 @@ int main()
                                    255);
             SDL_RenderFillRect(ren, &r);
         }
-        // Draw player at screen coords
-        SDL_Rect p = {worldPlayerX - camX,
-                      worldPlayerY - camY,
-                      playerW, playerH};
+
+        SDL_Rect p = {worldPlayerX - camX, worldPlayerY - camY, playerW, playerH};
         SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
         SDL_RenderFillRect(ren, &p);
+        SDL_RenderCopy(ren, playerTex, nullptr, &dst);
 
         SDL_RenderPresent(ren);
         SDL_Delay(16);
     }
 
+    SDL_DestroyTexture(playerTex);
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(win);
+    IMG_Quit();
     SDL_Quit();
     return 0;
 }
