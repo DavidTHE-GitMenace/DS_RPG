@@ -57,7 +57,7 @@ int main() {
      SDL_Rect rect2{100, 100, 50, 50};
 
     // PLAYER
-    SDL_Surface* player = IMG_Load("playerAssets/playerIdle.png");
+    SDL_Surface* player = IMG_Load("playerAssets/playerForward.png");
     if (!player) {
         cerr << "player image loading Error: " << IMG_GetError() << "\n";
         // … clean up and exit …
