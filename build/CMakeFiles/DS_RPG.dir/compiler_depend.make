@@ -254,6 +254,8 @@ CMakeFiles/DS_RPG.dir/main.cpp.o: ../main.cpp \
   vcpkg_installed/x64-linux/include/SDL2/SDL_version.h \
   vcpkg_installed/x64-linux/include/SDL2/SDL_locale.h \
   vcpkg_installed/x64-linux/include/SDL2/SDL_misc.h \
+  vcpkg_installed/x64-linux/include/SDL2/SDL_image.h \
+  vcpkg_installed/x64-linux/include/SDL2/SDL.h \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/ostream \
   /usr/include/c++/11/ios \
@@ -387,8 +389,6 @@ CMakeFiles/DS_RPG.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/11/ext/string_conversions.h:
 
 /usr/include/c++/11/bits/string_view.tcc:
-
-/usr/include/c++/11/bits/functional_hash.h:
 
 /usr/include/c++/11/bits/basic_string.h:
 
@@ -621,6 +621,10 @@ vcpkg_installed/x64-linux/include/SDL2/SDL_platform.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/c++/11/bits/functional_hash.h:
+
+vcpkg_installed/x64-linux/include/SDL2/SDL_image.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
