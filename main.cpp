@@ -6,6 +6,7 @@
 #include <chrono>
 #include <cstddef>
 #include <random>
+#include <thread>
 
 using namespace std;
 
@@ -48,8 +49,6 @@ int main() {
     // ------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-
     // MAKING OBJECTS IN-GAME: ------------------------------------------------------------------------------------------------------------
 
     // cubes
@@ -57,7 +56,7 @@ int main() {
      SDL_Rect rect{300, 300, 50, 50};
      SDL_Rect rect2{100, 100, 50, 50};
 
-    // player
+    // PLAYER
     SDL_Surface* player = IMG_Load("playerAssets/playerIdle.png");
     if (!player) {
         cerr << "player image loading Error: " << IMG_GetError() << "\n";
@@ -67,17 +66,22 @@ int main() {
     SDL_FreeSurface(player);
     SDL_Rect dst{500, 300, 70, 70}; // where to draw and how big
 
+    bool playerRight = false;
+    bool playerLeft = false;
+    bool playerForward = true;
+    bool playerBackward = false;
+
+
     // ------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
     // CLOCKS FOR THE ANIMATION:
     using Clock = std::chrono::high_resolution_clock;  
     using TimePoint = std::chrono::time_point<Clock>;
+    using Duration = std::chrono::duration<float>; // float seconds
 
-    TimePoint start = Clock::now();
-    
+    TimePoint lastTime = Clock::now();
+    float accumulatedTime = 0.0f;
     const float playerAnimateDuration = 0.1f;
 
     // ------------------------------------------------------------------------------------------------------------------------------------
@@ -88,6 +92,19 @@ int main() {
     // WINDOW OPENS, WHILE LOOP STARTS: ---------------------------------------------------------------------------------------------------
     while (!quit) // WHILE THE USEE HASN'T EXITED THE WINDOW
     {
+        // TIME
+        this_thread::sleep_for(std::chrono::milliseconds(100)); // simulate work
+
+        // ANIMATION FOR PLAYER: ------------------------------------------------------------------
+        auto now = Clock::now();
+        Duration delta = now - lastTime; // duration since last frame
+        lastTime = now;
+        accumulatedTime += delta.count(); // delta.count() gives seconds as float
+
+
+
+
+        // ----------------------------------------------------------------------------------------
     
     // EVENT LOOPS FOR INPUT ------------------------------------------------------------------------------------------
         while (SDL_PollEvent(&e)) // THIS IS FOR EVENTS LIKE INPUTS ON THE WINDOW
@@ -99,16 +116,16 @@ int main() {
             else if (e.type == SDL_KEYDOWN) { 
                 switch (e.key.keysym.sym) {
                     case SDLK_UP:
-                        rect.y -= 10;
+                        dst.y -= 5;
                         break;
                     case SDLK_DOWN:
-                        rect.y += 10;
+                        dst.y += 5;
                         break;
                     case SDLK_LEFT:
-                        rect.x -= 10;
+                        dst.x -= 5;
                         break;
                     case SDLK_RIGHT:
-                        rect.x += 10;
+                        dst.x += 5;
                         break;
                 }
             }
@@ -117,7 +134,7 @@ int main() {
     // ----------------------------------------------------------------------------------------------------------------
 
 
-
+    // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
         // 2) Clear the screen to a background color
         SDL_SetRenderDrawColor(ren, 30, 30, 30, 255); // BACKGROUND: dark gray
@@ -131,8 +148,8 @@ int main() {
         */
 
         // THIS IS THE RED CUBE
-        SDL_SetRenderDrawColor(ren, 255, 0, 0, 255); // red
-        SDL_RenderFillRect(ren, &rect);
+        // SDL_SetRenderDrawColor(ren, 255, 0, 0, 255); // red
+        // SDL_RenderFillRect(ren, &rect);
 
         // THIS IS THE BLUE CUBE
         // SDL_SetRenderDrawColor(ren, 0, 0, 255, 255); // blue
@@ -143,6 +160,8 @@ int main() {
 
         // RENDERS EVERTYING UNDER "REN"
         SDL_RenderPresent(ren);
+
+    // --------------------------------------------------------------------------------------------
         
     }
 
