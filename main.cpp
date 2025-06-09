@@ -2,12 +2,24 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <string>
+#include <chrono>
+#include <cstddef>
+#include <random>
+
 using namespace std;
 
 int main() {
-    // Initialize SDL
+    // Initialize SDL and Window/Image Settings -------------------------------------------------------------------------------------------
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         printf("SDL_Init Error: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+        std::cerr << "IMG_Init Error: " << IMG_GetError() << "\n";
+        SDL_Quit();
         return 1;
     }
 
@@ -28,24 +40,56 @@ int main() {
         return 1;
     }
 
-    // MAKING OBJECTS IN-GAME:
-
-    //            {xPos, yPos, length, width} 
-     SDL_Rect rect{300, 300, 50, 50};
-     SDL_Rect rect2{100, 100, 50, 50};
-
-
-
-    // -----------------------
-
-
     // Basic event loop
     SDL_Event e;
     int quit = 0;
     SDL_Renderer* ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    // ------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    // MAKING OBJECTS IN-GAME: ------------------------------------------------------------------------------------------------------------
+
+    // cubes
+    //            {xPos, yPos, length, width} 
+     SDL_Rect rect{300, 300, 50, 50};
+     SDL_Rect rect2{100, 100, 50, 50};
+
+    // player
+    SDL_Surface* player = IMG_Load("playerAssets/playerIdle.png");
+    if (!player) {
+        cerr << "player image loading Error: " << IMG_GetError() << "\n";
+        // … clean up and exit …
+    }
+    SDL_Texture* playerTex  = SDL_CreateTextureFromSurface(ren, player);
+    SDL_FreeSurface(player);
+    SDL_Rect dst{500, 300, 70, 70}; // where to draw and how big
+
+    // ------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    // CLOCKS FOR THE ANIMATION:
+    using Clock = std::chrono::high_resolution_clock;  
+    using TimePoint = std::chrono::time_point<Clock>;
+
+    TimePoint start = Clock::now();
+    
+    const float playerAnimateDuration = 0.1f;
+
+    // ------------------------------------------------------------------------------------------------------------------------------------
    
+
+
+
+    // WINDOW OPENS, WHILE LOOP STARTS: ---------------------------------------------------------------------------------------------------
     while (!quit) // WHILE THE USEE HASN'T EXITED THE WINDOW
     {
+    
+    // EVENT LOOPS FOR INPUT ------------------------------------------------------------------------------------------
         while (SDL_PollEvent(&e)) // THIS IS FOR EVENTS LIKE INPUTS ON THE WINDOW
         {
             if (e.type == SDL_QUIT) // IF USER CLICKS THE "X" ON THE WINDOW
@@ -68,6 +112,12 @@ int main() {
                         break;
                 }
             }
+        }
+
+    // ----------------------------------------------------------------------------------------------------------------
+
+
+
 
         // 2) Clear the screen to a background color
         SDL_SetRenderDrawColor(ren, 30, 30, 30, 255); // BACKGROUND: dark gray
@@ -85,18 +135,23 @@ int main() {
         SDL_RenderFillRect(ren, &rect);
 
         // THIS IS THE BLUE CUBE
-        SDL_SetRenderDrawColor(ren, 0, 0, 255, 255); // blue
-        SDL_RenderFillRect(ren, &rect2);
+        // SDL_SetRenderDrawColor(ren, 0, 0, 255, 255); // blue
+        // SDL_RenderFillRect(ren, &rect2);
+
+        // THIS IS THE PLAYER
+        SDL_RenderCopy(ren, playerTex, nullptr, &dst);
 
         // RENDERS EVERTYING UNDER "REN"
         SDL_RenderPresent(ren);
-        }
+        
     }
 
 
     // Clean up
+    SDL_DestroyTexture(playerTex);
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
 
     return 0;
