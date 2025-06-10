@@ -5,10 +5,15 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include <SDL_image.h>
+#include <iostream>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <chrono>
+#include <cstddef>
+#include <random>
+#include <thread>
 
 // Screen and tile dimensions -------------------------------------------------------------------------------
 #define SCREEN_WIDTH 800  // Viewport width in pixels
@@ -28,6 +33,9 @@
 #define MARGIN_Y ((SCREEN_HEIGHT - PLAYER_H) / 2)          // Vertical free-move margin
 #define MAX_CAM_X (WORLD_COLS * TILE_SIZE - SCREEN_WIDTH)  // Camera X bounds
 #define MAX_CAM_Y (WORLD_ROWS * TILE_SIZE - SCREEN_HEIGHT) // Camera Y bounds
+
+// Hysteresis dead-zone ------------------------------------------------------------------------------------------------
+#define HYST 5 // pixels of dead-zone around the margin threshold
 
 // Direction enumeration -------------------------------------------------------------------------------------
 enum Facing
@@ -66,6 +74,12 @@ void initWorld()
     }
 }
 
+//  Smooth Camera Follow (Interpolation) ---------------------------------------------------------------------------------
+static float camlerp(float a, float b, float t)
+{
+    return a + (b - a) * t;
+}
+
 int main()
 {
     // SDL initialization -----------------------------------------------------------------------------------------
@@ -100,7 +114,8 @@ int main()
     // Initial player and camera state -----------------------------------------------------------------------------
     int worldPX = (WORLD_COLS * TILE_SIZE) / 2 - PLAYER_W / 2;
     int worldPY = (WORLD_ROWS * TILE_SIZE) / 2 - PLAYER_H / 2;
-    int camX = 0, camY = 0;
+    float camXf = 0.0f, camYf = 0.0f;
+    int camX, camY;
     int facing = DOWN;
 
     // Click-to-move target ----------------------------------------------------------------------------------------
@@ -172,39 +187,62 @@ int main()
             }
         }
 
-        // --- Click-to-Move Logic ------------------------------------------------------------------------------------
+        // --- Click-to-Move Logic (refactored) ------------------------------------------------
         if (movingToClick)
         {
+            // 1) Compute how far we are from the target
+            int diffX = targetPX - worldPX;
+            int diffY = targetPY - worldPY;
+
+            // 2) Clamp our step so we never overshoot
             int dx = 0, dy = 0;
-            if (worldPX < targetPX)
+            if (diffX > MOVE_SPEED)
                 dx = MOVE_SPEED;
-            else if (worldPX > targetPX)
+            else if (diffX < -MOVE_SPEED)
                 dx = -MOVE_SPEED;
-            if (worldPY < targetPY)
-                dy = MOVE_SPEED;
-            else if (worldPY > targetPY)
-                dy = -MOVE_SPEED;
-            // Stop when reached
-            if (dx == 0 && dy == 0)
-                movingToClick = false;
             else
+                dx = diffX; // the last small bit
+
+            if (diffY > MOVE_SPEED)
+                dy = MOVE_SPEED;
+            else if (diffY < -MOVE_SPEED)
+                dy = -MOVE_SPEED;
+            else
+                dy = diffY; // the last small bit
+
+            // 3) Move
+            worldPX += dx;
+            worldPY += dy;
+
+            // 4) Stop exactly when we reach it
+            if (worldPX == targetPX && worldPY == targetPY)
             {
-                worldPX = SDL_clamp(worldPX + dx, 0, WORLD_COLS * TILE_SIZE - PLAYER_W);
-                worldPY = SDL_clamp(worldPY + dy, 0, WORLD_ROWS * TILE_SIZE - PLAYER_H);
-                // Hybrid camera logic
-                int scrX = worldPX - camX;
-                int scrY = worldPY - camY;
-                if (scrX < MARGIN_X)
-                    camX = worldPX - MARGIN_X;
-                else if (scrX > SCREEN_WIDTH - MARGIN_X - PLAYER_W)
-                    camX = worldPX - (SCREEN_WIDTH - MARGIN_X - PLAYER_W);
-                if (scrY < MARGIN_Y)
-                    camY = worldPY - MARGIN_Y;
-                else if (scrY > SCREEN_HEIGHT - MARGIN_Y - PLAYER_H)
-                    camY = worldPY - (SCREEN_HEIGHT - MARGIN_Y - PLAYER_H);
-                camX = SDL_clamp(camX, 0, MAX_CAM_X);
-                camY = SDL_clamp(camY, 0, MAX_CAM_Y);
+                movingToClick = false;
             }
+
+            // 5) Hysteresis-based desired camera (integer)
+            int scrX = worldPX - camX;
+            int scrY = worldPY - camY;
+            int desiredCamX = camX;
+            int desiredCamY = camY;
+
+            if (scrX < MARGIN_X - HYST)
+                desiredCamX = worldPX - MARGIN_X;
+            else if (scrX > (SCREEN_WIDTH - MARGIN_X - PLAYER_W) + HYST)
+                desiredCamX = worldPX - (SCREEN_WIDTH - MARGIN_X - PLAYER_W);
+
+            if (scrY < MARGIN_Y - HYST)
+                desiredCamY = worldPY - MARGIN_Y;
+            else if (scrY > (SCREEN_HEIGHT - MARGIN_Y - PLAYER_H) + HYST)
+                desiredCamY = worldPY - (SCREEN_HEIGHT - MARGIN_Y - PLAYER_H);
+
+            // 6) Smoothly lerp the *float* camera
+            camXf = camlerp(camXf, (float)desiredCamX, 0.2f);
+            camYf = camlerp(camYf, (float)desiredCamY, 0.2f);
+
+            // 7) Round once for all rendering/logic
+            camX = SDL_clamp((int)(camXf + 0.5f), 0, MAX_CAM_X);
+            camY = SDL_clamp((int)(camYf + 0.5f), 0, MAX_CAM_Y);
         }
 
         // --- Mouse & Facing Direction ----------------------------------------------------------------------------
