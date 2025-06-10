@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -isystem "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/include" -isystem "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2"
 
-CXX_FLAGS = -Wall -Wextra -Wshadow -Wpedantic -Wunreachable-code -std=gnu++17
+CXX_FLAGS = -Wall -Wextra -Wshadow -Wpedantic -Wunreachable-code -std=gnu++23
 

@@ -319,6 +319,9 @@ ZLIB_LIBRARY_DEBUG:FILEPATH=/mnt/c/Users/nkouk/OneDrive/Documents/Personal Proje
 //Path to a library.
 ZLIB_LIBRARY_RELEASE:FILEPATH=/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/lib/libz.a
 
+//Path to a program.
+Z_VCPKG_CL:FILEPATH=Z_VCPKG_CL-NOTFOUND
+
 //The directory which contains the installed libraries for each
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed
