@@ -57,20 +57,58 @@ int main() {
      SDL_Rect rect2{100, 100, 50, 50};
 
     // PLAYER
-    SDL_Surface* player = IMG_Load("playerAssets/playerForward.png");
-    if (!player) {
-        cerr << "player image loading Error: " << IMG_GetError() << "\n";
-        // … clean up and exit …
-    }
-    SDL_Texture* playerTex  = SDL_CreateTextureFromSurface(ren, player);
-    SDL_FreeSurface(player);
+    // - LOADING ALL THE SURFACES AND TEXTURES
+    SDL_Surface* playerForward = IMG_Load("playerAssets/playerForward.png");
+    SDL_Texture* playerForwardTex  = SDL_CreateTextureFromSurface(ren, playerForward);
+
+    SDL_Surface* playerBackward = IMG_Load("playerAssets/playerBackwards.png");
+    SDL_Texture* playerBackwardTex  = SDL_CreateTextureFromSurface(ren, playerBackward);
+
+    SDL_Surface* playerLeft = IMG_Load("playerAssets/playerLeftIdle.png");
+    SDL_Texture* playerLeftTex  = SDL_CreateTextureFromSurface(ren, playerLeft);
+    
+    SDL_Surface* playerRight = IMG_Load("playerAssets/playerRightIdle.png");
+    SDL_Texture* playerRightTex  = SDL_CreateTextureFromSurface(ren, playerRight);
+    
+    SDL_Surface* playerWalkingForward1 = IMG_Load("playerAssets/playerWalkingForward1.png");
+    SDL_Texture* playerWalkingForward1Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingForward1);
+    
+    SDL_Surface* playerWalkingForward2 = IMG_Load("playerAssets/playerWalkingForward2.png");
+    SDL_Texture* playerWalkingForward2Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingForward2);
+
+    SDL_Surface* playerWalkingBackward1 = IMG_Load("playerAssets/walkingBackwards1.png");
+    SDL_Texture* playerWalkingBackward1Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingBackward1);
+
+    SDL_Surface* playerWalkingBackward2 = IMG_Load("playerAssets/walkingBackwards2.png");
+    SDL_Texture* playerWalkingBackward2Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingBackward2);
+    
+    SDL_Surface* playerWalkingLeft1 = IMG_Load("playerAssets/playerWalkingLeft1.png");
+    SDL_Texture* playerWalkingLeft1Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingLeft1);
+    
+    SDL_Surface* playerWalkingLeft2 = IMG_Load("playerAssets/playerWalkingLeft2.png");
+    SDL_Texture* playerWalkingLeft2Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingLeft2);
+
+    SDL_Surface* playerWalkingRight1 = IMG_Load("playerAssets/playerWalkingRight1.png");
+    SDL_Texture* playerWalkingRight1Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingRight1);
+
+    SDL_Surface* playerWalkingRight2 = IMG_Load("playerAssets/playerWalkingRight2.png");
+    SDL_Texture* playerWalkingRight2Tex  = SDL_CreateTextureFromSurface(ren, playerWalkingRight2);
+    
+
+    SDL_Surface* currentPlayer = playerForward;  // default facing forward
+    SDL_Texture* currentPlayerTex  = playerForwardTex;
+    
     SDL_Rect dst{500, 300, 70, 70}; // where to draw and how big
 
-    bool playerRight = false;
-    bool playerLeft = false;
-    bool playerForward = true;
-    bool playerBackward = false;
 
+    // FOR FINDING IF PLAYER IS FACING FORWARD, BACKWARD, LEFT OR RIGHT
+    bool isplayerRight = false;
+    bool isplayerLeft = false;
+    bool isplayerForward = true;
+    bool isplayerBackward = false;
+
+    // FOR SWITCHING THE FRAMES OF THE MAIN CHARACTER WALKING
+    bool isplayerWalkingFrame1 = false;
 
     // ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -95,14 +133,12 @@ int main() {
         // TIME
         this_thread::sleep_for(std::chrono::milliseconds(100)); // simulate work
 
-        // ANIMATION FOR PLAYER: ------------------------------------------------------------------
+        // CLOCK TIMING FOR PLAYER ANIMATION: ------------------------------------------------------------------
+
         auto now = Clock::now();
         Duration delta = now - lastTime; // duration since last frame
         lastTime = now;
         accumulatedTime += delta.count(); // delta.count() gives seconds as float
-
-
-
 
         // ----------------------------------------------------------------------------------------
     
@@ -113,26 +149,119 @@ int main() {
             {
                 quit = 1;
             }
-            else if (e.type == SDL_KEYDOWN) { 
+            else if (e.type == SDL_KEYDOWN) {
                 switch (e.key.keysym.sym) {
                     case SDLK_UP:
                         dst.y -= 5;
+                        currentPlayer = playerBackward;
+                        currentPlayerTex = playerBackwardTex;
+                        isplayerBackward = true;
                         break;
                     case SDLK_DOWN:
                         dst.y += 5;
+                        currentPlayer = playerForward;
+                        currentPlayerTex = playerForwardTex;
+                        isplayerForward = true;
                         break;
                     case SDLK_LEFT:
                         dst.x -= 5;
+                        currentPlayer = playerLeft;
+                        currentPlayerTex = playerLeftTex;
+                        isplayerLeft = true;
                         break;
                     case SDLK_RIGHT:
                         dst.x += 5;
+                        currentPlayer = playerRight;
+                        currentPlayerTex = playerRightTex;
+                        isplayerRight = true;
                         break;
                 }
+            }
+            else if (e.type == SDL_KEYUP) {
+                switch (e.key.keysym.sym) {
+                    case SDLK_UP:
+                        currentPlayer = playerBackward;
+                        currentPlayerTex = playerBackwardTex;
+                        isplayerBackward = false;
+                        break;
+                    case SDLK_DOWN:
+                        currentPlayer = playerForward;
+                        currentPlayerTex = playerForwardTex;
+                        isplayerForward = false;
+                        break;
+                    case SDLK_LEFT:
+                        currentPlayer = playerLeft;
+                        currentPlayerTex = playerLeftTex;
+                        isplayerLeft = false;
+                        break;
+                    case SDLK_RIGHT:
+                        currentPlayer = playerRight;
+                        currentPlayerTex = playerRightTex;
+                        isplayerRight = false;
+                        break;
+                }
+                playerForward = playerBackward = playerForward = playerBackward = false;
             }
         }
 
     // ----------------------------------------------------------------------------------------------------------------
 
+    // ACTUAL PLAYER ANIMATION: -------------------------------------------------------------------
+
+    if (isplayerBackward) {
+        isplayerForward = isplayerLeft = isplayerRight = false; // only facing backwards
+
+        currentPlayer = isplayerWalkingFrame1 ? playerWalkingBackward1 : playerWalkingBackward2;
+        currentPlayerTex = isplayerWalkingFrame1 ? playerWalkingBackward1Tex : playerWalkingBackward2Tex;
+
+        if (accumulatedTime >= playerAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+                isplayerWalkingFrame1 = !isplayerWalkingFrame1;
+                accumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+    if (isplayerForward) {
+        isplayerBackward = isplayerLeft = isplayerRight = false; // only facing backwards
+
+        currentPlayer = isplayerWalkingFrame1 ? playerWalkingForward1 : playerWalkingForward2;
+        currentPlayerTex = isplayerWalkingFrame1 ? playerWalkingForward1Tex : playerWalkingForward2Tex;
+
+        if (accumulatedTime >= playerAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+                isplayerWalkingFrame1 = !isplayerWalkingFrame1;
+                accumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+    if (isplayerLeft) {
+        isplayerBackward = isplayerForward = isplayerRight = false; // only facing backwards
+
+        currentPlayer = isplayerWalkingFrame1 ? playerWalkingLeft1 : playerWalkingLeft2;
+        currentPlayerTex = isplayerWalkingFrame1 ? playerWalkingLeft1Tex : playerWalkingLeft2Tex;
+
+        if (accumulatedTime >= playerAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+                isplayerWalkingFrame1 = !isplayerWalkingFrame1;
+                accumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+    if (isplayerRight) {
+        isplayerBackward = isplayerForward = isplayerLeft = false; // only facing backwards
+
+        currentPlayer = isplayerWalkingFrame1 ? playerWalkingRight1 : playerWalkingRight2;
+        currentPlayerTex = isplayerWalkingFrame1 ? playerWalkingRight1Tex : playerWalkingRight2Tex;
+
+        if (accumulatedTime >= playerAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+                isplayerWalkingFrame1 = !isplayerWalkingFrame1;
+                accumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+
+    // --------------------------------------------------------------------------------------------
 
     // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
@@ -156,10 +285,11 @@ int main() {
         // SDL_RenderFillRect(ren, &rect2);
 
         // THIS IS THE PLAYER
-        SDL_RenderCopy(ren, playerTex, nullptr, &dst);
+        SDL_RenderCopy(ren, currentPlayerTex, nullptr, &dst);
 
         // RENDERS EVERTYING UNDER "REN"
         SDL_RenderPresent(ren);
+        SDL_Delay(16);
 
     // --------------------------------------------------------------------------------------------
         
@@ -167,7 +297,8 @@ int main() {
 
 
     // Clean up
-    SDL_DestroyTexture(playerTex);
+    SDL_FreeSurface(currentPlayer);
+    SDL_DestroyTexture(currentPlayerTex);
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(window);
     IMG_Quit();
