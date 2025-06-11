@@ -21,6 +21,8 @@
 
 #include <vector>
 #include <utility> // important to return two values at once with the use of std::pair: pair<type, type>
+#include <SDL.h>
+#include <SDL_image.h>
 using namespace std;
 
 class GridGraph { // the class definition starts here
@@ -61,6 +63,7 @@ public:
     NodeId nodeId(int r, int c) const { 
         /*  Each NodeId has its own number within the Grid, starting from 0 to (_rows * _cols) - 1
             This function just generates that number for each NodeId starting from (0,0) - top left to (_rows,_cols) - bottom right
+            This function can also be used to find the nodeId from coordinates
         */ 
         return r * _cols + c;
     }
@@ -75,11 +78,26 @@ public:
 
     int idToCoordsY(NodeId id) const{ // returns the y coordinate of the NodeId
         return id % _cols;
-    }
+    }  
 
     const vector<NodeId>& neighbors(NodeId id) const { // get the neighboring numbers of NodeId
         return _adj[id];
     }
+
+    void chasePlayer(pair<int, int> enemyCoords, pair<int, int> playerCoords) {
+        // Convert the enemy and player coordinates to a NodeID
+        NodeId enemyPoint = nodeId(enemyCoords.first, enemyCoords.second);
+        NodeId playerPoint = nodeId(playerCoords.first, playerCoords.second);
+
+        if (enemyCoords.first > playerCoords.first && enemyCoords.second > playerCoords.second) { // if player is above the enemy and on the left
+            
+        }
+
+
+
+    }
+
+    // I realized
 
     int rows() {return _rows;}
     int columns() {return _cols;}

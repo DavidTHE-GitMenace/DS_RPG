@@ -5,6 +5,7 @@
   },
   "files.associations": {
     "random": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "utility": "cpp"
   }
 }

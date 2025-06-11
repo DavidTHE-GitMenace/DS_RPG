@@ -51,11 +51,16 @@ int main() {
     // I need this for holding down keys
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
+    // Using NodeIds here as well as an alias to make teminology stick
+    using NodeId = int;
+
     // ------------------------------------------------------------------------------------------------------------------------------------
 
-    // MAKING THE GRID GRAPH FOR ENEMIES AND OBECTS TO BE PLACED ON -----------------------------------------------------------------------
+    // MAKING THE GRID GRAPH FOR ENEMIES AND OBECTS ---------------------------------------------------------------------------------------
 
     GridGraph(1700, 1000);
+    pair <int, int> playerCoordinates;
+    pair <int, int> slimeCoordinates;
 
 
     // ------------------------------------------------------------------------------------------------------------------------------------
@@ -67,7 +72,7 @@ int main() {
      SDL_Rect rect{300, 300, 50, 50};
      SDL_Rect rect2{100, 100, 50, 50};
 
-    // PLAYER
+    // PLAYER -------------------------------------------------------------------------------------
     // - LOADING ALL THE SURFACES AND TEXTURES
     SDL_Surface* playerForward = IMG_Load("playerAssets/playerForward.png");
     SDL_Texture* playerForwardTex  = SDL_CreateTextureFromSurface(ren, playerForward);
@@ -142,8 +147,59 @@ int main() {
 
 
 
-    // SLIME
+    // SLIME --------------------------------------------------------------------------------------
     // - LOADING ALL THE SURFACES AND TEXTURES
+    SDL_Surface* slimeIdle1 = IMG_Load("slimeAssets/slimeForward1.png");
+    SDL_Texture* slimeIdle1Tex  = SDL_CreateTextureFromSurface(ren, slimeIdle1);
+
+    SDL_Surface* slimeIdle2 = IMG_Load("slimeAssets/slimeForward2.png");
+    SDL_Texture* slimeIdle2Tex  = SDL_CreateTextureFromSurface(ren, slimeIdle2);
+
+    SDL_Surface* slimeIdle3 = IMG_Load("slimeAssets/slimeForward3.png");
+    SDL_Texture* slimeIdle3Tex  = SDL_CreateTextureFromSurface(ren, slimeIdle3);
+
+    SDL_Surface* slimeLeft1 = IMG_Load("slimeAssets/slimeLeft1.png");
+    SDL_Texture* slimeLeft1Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft1);
+
+    SDL_Surface* slimeLeft2 = IMG_Load("slimeAssets/slimeLeft2.png");
+    SDL_Texture* slimeLeft2Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft2);
+
+    SDL_Surface* slimeLeft3 = IMG_Load("slimeAssets/slimeLeft3.png");
+    SDL_Texture* slimeLeft3Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft3);
+
+    SDL_Surface* slimeRight1 = IMG_Load("slimeAssets/slimeRight1.png");
+    SDL_Texture* slimeRight1Tex  = SDL_CreateTextureFromSurface(ren, slimeRight1);
+
+    SDL_Surface* slimeRight2 = IMG_Load("slimeAssets/slimeRight2.png");
+    SDL_Texture* slimeRight2Tex  = SDL_CreateTextureFromSurface(ren, slimeRight2);
+
+    SDL_Surface* slimeRight3 = IMG_Load("slimeAssets/slimeRight3.png");
+    SDL_Texture* slimeRight3Tex  = SDL_CreateTextureFromSurface(ren, slimeRight3);
+
+    SDL_Surface* slimeUp1 = IMG_Load("slimeAssets/slimeUp1.png");
+    SDL_Texture* slimeUp1Tex  = SDL_CreateTextureFromSurface(ren, slimeUp1);
+
+    SDL_Surface* slimeUp2 = IMG_Load("slimeAssets/slimeUp2.png");
+    SDL_Texture* slimeUp2Tex  = SDL_CreateTextureFromSurface(ren, slimeUp2);
+
+    SDL_Surface* slimeUp3 = IMG_Load("slimeAssets/slimeUp3.png");
+    SDL_Texture* slimeUp3Tex  = SDL_CreateTextureFromSurface(ren, slimeUp3);
+
+    SDL_Surface* currentSlime = slimeIdle1;  // default facing forward
+    SDL_Texture* currentSlimeTex  = slimeIdle1Tex;
+    
+    SDL_Rect slimeDst{1000, 500, 100, 100}; // where to draw and how big
+
+    // FOR FINDING IF SLIME IS FACING FORWARD, BACKWARD, LEFT OR RIGHT
+    bool isSlimeRight = false;
+    bool isSlimeLeft = false;
+    bool isSlimeForward = false;
+    bool isSlimeBackward = false;
+
+    // FOR SWITCHING THE FRAMES OF THE SLIME MOVING
+    bool isSlimeMovingFrame1 = false;
+
+    // --------------------------------------------------------------------------------------------
 
 
     // ------------------------------------------------------------------------------------------------------------------------------------
@@ -157,6 +213,7 @@ int main() {
     TimePoint lastTime = Clock::now();
     float accumulatedTime = 0.0f;
     const float playerAnimateDuration = 0.1f;
+    const float slimeAnimateDuration = 0.15f;
 
     // ------------------------------------------------------------------------------------------------------------------------------------
    
@@ -272,6 +329,10 @@ int main() {
             isplayerRight = true;
             isplayerBackward = isplayerForward = isplayerLeft = false;
         }
+
+        // player coordinates need to be updated after movement
+        playerCoordinates.first = dst.x;
+        playerCoordinates.second = dst.y;
         
     // ----------------------------------------------------------------------------------------------------------------
 
@@ -375,6 +436,9 @@ int main() {
 
         // THIS IS THE PLAYER
         SDL_RenderCopy(ren, currentPlayerTex, nullptr, &dst);
+
+        // THIS IS THE SLIME
+        SDL_RenderCopy(ren, currentSlimeTex, nullptr, &slimeDst);
 
         // RENDERS EVERTYING UNDER "REN"
         SDL_RenderPresent(ren);
