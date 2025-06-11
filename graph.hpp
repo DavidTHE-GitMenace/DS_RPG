@@ -69,6 +69,14 @@ public:
         return {id / _cols, id % _cols};
     }
 
+    int idToCoordsX(NodeId id) const{ // returns the x coordinate of the NodeId
+        return id / _cols;
+    }
+
+    int idToCoordsY(NodeId id) const{ // returns the y coordinate of the NodeId
+        return id % _cols;
+    }
+
     const vector<NodeId>& neighbors(NodeId id) const { // get the neighboring numbers of NodeId
         return _adj[id];
     }
