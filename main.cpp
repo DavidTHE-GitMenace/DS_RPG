@@ -46,6 +46,26 @@ enum Facing
     UP = 3
 };
 
+// Weapon/Invetory data structure ----------------------------------------------------------------------------------------
+typedef struct
+{
+    const char *name;
+    int damage;
+    // int quanity, cooldown;
+    SDL_Texture *sprite;
+} Weapon;
+
+typedef struct
+{
+    Weapon *weapon;    // Pointer to weapon data (shared if weapon is unique)
+    int quantity;      // How many copies player has
+    SDL_Rect iconRect; // Position/size in inventory UI (optional)
+} InventoryEntry;
+
+Weapon bow = {"bow", 40, IMG_LoadTexture(renderer, "weaponAssets/Bow.png")};
+Weapon sword1 = {"sword1", 50, IMG_LoadTexture(renderer, "weaponAssets/Sword1.png")};
+Weapon sword2 = {"sword2", 70, IMG_LoadTexture(renderer, "weaponAssets/Sword2.png")};
+
 // Tile data structure ----------------------------------------------------------------------------------------
 typedef struct
 {
