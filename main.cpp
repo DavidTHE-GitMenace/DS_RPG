@@ -1,4 +1,4 @@
-#define SDL_MAIN_HANDLED
+      #define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
@@ -7,6 +7,8 @@
 #include <cstddef>
 #include <random>
 #include <thread>
+
+#include "graph.hpp"
 
 using namespace std;
 
@@ -104,7 +106,7 @@ int main() {
     // FOR FINDING IF PLAYER IS FACING FORWARD, BACKWARD, LEFT OR RIGHT
     bool isplayerRight = false;
     bool isplayerLeft = false;
-    bool isplayerForward = true;
+    bool isplayerForward = false;
     bool isplayerBackward = false;
 
     // FOR SWITCHING THE FRAMES OF THE MAIN CHARACTER WALKING
@@ -152,25 +154,25 @@ int main() {
             else if (e.type == SDL_KEYDOWN) {
                 switch (e.key.keysym.sym) {
                     case SDLK_UP:
-                        dst.y -= 5;
+                        dst.y -= 15;
                         currentPlayer = playerBackward;
                         currentPlayerTex = playerBackwardTex;
                         isplayerBackward = true;
                         break;
                     case SDLK_DOWN:
-                        dst.y += 5;
+                        dst.y += 15;
                         currentPlayer = playerForward;
                         currentPlayerTex = playerForwardTex;
                         isplayerForward = true;
                         break;
                     case SDLK_LEFT:
-                        dst.x -= 5;
+                        dst.x -= 15;
                         currentPlayer = playerLeft;
                         currentPlayerTex = playerLeftTex;
                         isplayerLeft = true;
                         break;
                     case SDLK_RIGHT:
-                        dst.x += 5;
+                        dst.x += 15;
                         currentPlayer = playerRight;
                         currentPlayerTex = playerRightTex;
                         isplayerRight = true;
@@ -206,6 +208,7 @@ int main() {
 
     // ----------------------------------------------------------------------------------------------------------------
 
+    
     // ACTUAL PLAYER ANIMATION: -------------------------------------------------------------------
 
     if (isplayerBackward) {
@@ -260,9 +263,9 @@ int main() {
 
     }
 
-
     // --------------------------------------------------------------------------------------------
 
+    
     // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
         // 2) Clear the screen to a background color
@@ -306,4 +309,3 @@ int main() {
 
     return 0;
 }
-

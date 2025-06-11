@@ -2,5 +2,9 @@
   "cmake.configureSettings": {
     "CMAKE_TOOLCHAIN_FILE": "C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake",
     "VCPKG_TARGET_TRIPLET": "x64-windows"
+  },
+  "files.associations": {
+    "random": "cpp",
+    "thread": "cpp"
   }
 }
