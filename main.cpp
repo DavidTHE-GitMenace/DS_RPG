@@ -7,8 +7,9 @@
 #include <cstddef>
 #include <random>
 #include <thread>
+#include <vector>
 
-#include "graph.hpp"
+#include "GridGraph.hpp"
 
 using namespace std;
 
@@ -58,7 +59,7 @@ int main() {
 
     // MAKING THE GRID GRAPH FOR ENEMIES AND OBECTS ---------------------------------------------------------------------------------------
 
-    GridGraph(1700, 1000);
+    GridGraph worldGrid(1700, 1000);
     pair <int, int> playerCoordinates;
     pair <int, int> slimeCoordinates;
 
@@ -132,7 +133,7 @@ int main() {
     SDL_Surface* currentPlayer = playerForward;  // default facing forward
     SDL_Texture* currentPlayerTex  = playerForwardTex;
     
-    SDL_Rect dst{500, 300, 70, 70}; // where to draw and how big
+    SDL_Rect playerDst{500, 300, 70, 70}; // where to draw and how big
 
 
     // FOR FINDING IF PLAYER IS FACING FORWARD, BACKWARD, LEFT OR RIGHT
@@ -167,14 +168,14 @@ int main() {
     SDL_Surface* slimeLeft3 = IMG_Load("slimeAssets/slimeLeft3.png");
     SDL_Texture* slimeLeft3Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft3);
 
-    SDL_Surface* slimeRight1 = IMG_Load("slimeAssets/slimeRight1.png");
-    SDL_Texture* slimeRight1Tex  = SDL_CreateTextureFromSurface(ren, slimeRight1);
+    // SDL_Surface* slimeRight1 = IMG_Load("slimeAssets/slimeRight1.png");
+    // SDL_Texture* slimeRight1Tex  = SDL_CreateTextureFromSurface(ren, slimeRight1);
 
-    SDL_Surface* slimeRight2 = IMG_Load("slimeAssets/slimeRight2.png");
-    SDL_Texture* slimeRight2Tex  = SDL_CreateTextureFromSurface(ren, slimeRight2);
+    // SDL_Surface* slimeRight2 = IMG_Load("slimeAssets/slimeRight2.png");
+    // SDL_Texture* slimeRight2Tex  = SDL_CreateTextureFromSurface(ren, slimeRight2);
 
-    SDL_Surface* slimeRight3 = IMG_Load("slimeAssets/slimeRight3.png");
-    SDL_Texture* slimeRight3Tex  = SDL_CreateTextureFromSurface(ren, slimeRight3);
+    // SDL_Surface* slimeRight3 = IMG_Load("slimeAssets/slimeRight3.png");
+    // SDL_Texture* slimeRight3Tex  = SDL_CreateTextureFromSurface(ren, slimeRight3);
 
     SDL_Surface* slimeUp1 = IMG_Load("slimeAssets/slimeUp1.png");
     SDL_Texture* slimeUp1Tex  = SDL_CreateTextureFromSurface(ren, slimeUp1);
@@ -195,9 +196,26 @@ int main() {
     bool isSlimeLeft = false;
     bool isSlimeForward = false;
     bool isSlimeBackward = false;
+    bool isSlimeUpRight = false;
+    bool isSlimeUpLeft = false;
+    bool isSlimeDownRight = false;
+    bool isSlimeDownLeft = false;
 
     // FOR SWITCHING THE FRAMES OF THE SLIME MOVING
-    bool isSlimeMovingFrame1 = false;
+    int slimeFrameCount = 0;
+
+    // LISTS FOR BACK AND FORTH ANIMATION OF SLIME:
+    // forward list
+    vector<SDL_Surface*> slimeIdleList = {slimeIdle1, slimeIdle2, slimeIdle3, slimeIdle2};
+    vector<SDL_Texture*> slimeIdleTextureList = {slimeIdle1Tex, slimeIdle2Tex, slimeIdle3Tex, slimeIdle2Tex};
+
+    // back list
+    vector<SDL_Surface*> slimeBackList = {slimeUp1, slimeUp2, slimeUp3, slimeUp2};
+    vector<SDL_Texture*> slimeBackTextureList = {slimeUp1Tex, slimeUp2Tex, slimeUp3Tex, slimeUp2Tex};
+
+    // left list
+    vector<SDL_Surface*> slimeLeftList = {slimeLeft1, slimeLeft2, slimeLeft3, slimeLeft2};
+    vector<SDL_Texture*> slimeLeftTextureList = {slimeLeft1Tex, slimeLeft2Tex, slimeLeft3Tex, slimeLeft2Tex};
 
     // --------------------------------------------------------------------------------------------
 
@@ -212,8 +230,10 @@ int main() {
 
     TimePoint lastTime = Clock::now();
     float accumulatedTime = 0.0f;
+    float slimeAccumulatedTime = 0.0f;
+    
     const float playerAnimateDuration = 0.1f;
-    const float slimeAnimateDuration = 0.15f;
+    const float slimeAnimateDuration = 0.125f;
 
     // ------------------------------------------------------------------------------------------------------------------------------------
    
@@ -226,12 +246,13 @@ int main() {
         // TIME
         this_thread::sleep_for(std::chrono::milliseconds(100)); // simulate work
 
-        // CLOCK TIMING FOR PLAYER ANIMATION: ------------------------------------------------------------------
+        // CLOCK TIMING FOR PLAYER ANIMATION: -----------------------------------------------------
 
         auto now = Clock::now();
         Duration delta = now - lastTime; // duration since last frame
         lastTime = now;
         accumulatedTime += delta.count(); // delta.count() gives seconds as float
+        slimeAccumulatedTime += delta.count(); 
 
         // ----------------------------------------------------------------------------------------
     
@@ -270,60 +291,60 @@ int main() {
         }
 
         if (keystate[SDL_SCANCODE_DOWN] && keystate[SDL_SCANCODE_LEFT]) {
-            dst.y += 15;
-            dst.x -= 15;
+            playerDst.y += 15;
+            playerDst.x -= 15;
             currentPlayer = playerLeft;
             currentPlayerTex = playerLeftTex;
             isplayerLeft = true;
             isplayerBackward = isplayerForward = isplayerRight = false;
         }
         else if (keystate[SDL_SCANCODE_DOWN] && keystate[SDL_SCANCODE_RIGHT]) {
-            dst.y += 15;
-            dst.x += 15;
+            playerDst.y += 15;
+            playerDst.x += 15;
             currentPlayer = playerRight;
             currentPlayerTex = playerRightTex;
             isplayerRight = true;
             isplayerBackward = isplayerForward = isplayerLeft = false;
         }
         else if (keystate[SDL_SCANCODE_UP] && keystate[SDL_SCANCODE_RIGHT]) {
-            dst.y -= 15;
-            dst.x += 15;
+            playerDst.y -= 15;
+            playerDst.x += 15;
             currentPlayer = playerBackRight;
             currentPlayerTex = playerBackRightTex;
             isplayerRight = isplayerBackward = true;
             isplayerForward = isplayerLeft = false;
         }        
         else if (keystate[SDL_SCANCODE_UP] && keystate[SDL_SCANCODE_LEFT]) {
-            dst.y -= 15;
-            dst.x -= 15;
+            playerDst.y -= 15;
+            playerDst.x -= 15;
             currentPlayer = playerBackLeft;
             currentPlayerTex = playerBackLeftTex;
             isplayerLeft = isplayerBackward = true;
             isplayerForward = isplayerRight = false;
         }                
         else if (keystate[SDL_SCANCODE_UP]) {
-            dst.y -= 15;
+            playerDst.y -= 15;
             currentPlayer = playerBackward;
             currentPlayerTex = playerBackwardTex;
             isplayerBackward = true;
             isplayerRight = isplayerForward = isplayerLeft = false;
         }
         else if (keystate[SDL_SCANCODE_DOWN]) {
-            dst.y += 15;
+            playerDst.y += 15;
             currentPlayer = playerForward;
             currentPlayerTex = playerForwardTex;
             isplayerForward = true;
             isplayerBackward = isplayerRight = isplayerLeft = false;
         }
         else if (keystate[SDL_SCANCODE_LEFT]) {
-            dst.x -= 15;
+            playerDst.x -= 15;
             currentPlayer = playerLeft;
             currentPlayerTex = playerLeftTex;
             isplayerLeft = true;
             isplayerBackward = isplayerForward = isplayerRight = false;
         }
         else if (keystate[SDL_SCANCODE_RIGHT]) {
-            dst.x += 15;
+            playerDst.x += 15;
             currentPlayer = playerRight;
             currentPlayerTex = playerRightTex;
             isplayerRight = true;
@@ -331,8 +352,8 @@ int main() {
         }
 
         // player coordinates need to be updated after movement
-        playerCoordinates.first = dst.x;
-        playerCoordinates.second = dst.y;
+        playerCoordinates.first = playerDst.x;
+        playerCoordinates.second = playerDst.y;
         
     // ----------------------------------------------------------------------------------------------------------------
 
@@ -412,6 +433,61 @@ int main() {
 
     // --------------------------------------------------------------------------------------------
 
+    // SLIME MOVEMENT -----------------------------------------------------------------------------
+
+    // slime coordinates
+    slimeCoordinates.first = slimeDst.x;
+    slimeCoordinates.second = slimeDst.y;
+
+    // slime chasing player
+    worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
+
+    if (isSlimeForward) {
+        isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeIdleList[slimeFrameCount];
+        currentSlimeTex = slimeIdleTextureList[slimeFrameCount];
+
+        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+            ++slimeFrameCount;
+            if (slimeFrameCount == 4)  slimeFrameCount = 0;
+
+            slimeAccumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+    if (isSlimeBackward) {
+        isSlimeForward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeBackList[slimeFrameCount];
+        currentSlimeTex = slimeBackTextureList[slimeFrameCount];
+
+        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+            ++slimeFrameCount;
+            if (slimeFrameCount == 4)  slimeFrameCount = 0;
+
+            slimeAccumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+
+    if (isSlimeLeft) {
+        isSlimeForward = isSlimeBackward = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeLeftList[slimeFrameCount];
+        currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
+
+        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+            ++slimeFrameCount;
+            if (slimeFrameCount == 4)  slimeFrameCount = 0;
+
+            slimeAccumulatedTime = 0.0f; // Resets the timer
+        }
+
+    }
+    // --------------------------------------------------------------------------------------------
+
     
     // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
@@ -435,7 +511,7 @@ int main() {
         // SDL_RenderFillRect(ren, &rect2);
 
         // THIS IS THE PLAYER
-        SDL_RenderCopy(ren, currentPlayerTex, nullptr, &dst);
+        SDL_RenderCopy(ren, currentPlayerTex, nullptr, &playerDst);
 
         // THIS IS THE SLIME
         SDL_RenderCopy(ren, currentSlimeTex, nullptr, &slimeDst);

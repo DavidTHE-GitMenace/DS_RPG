@@ -1,0 +1,3 @@
+cd ..\..; cmake --build build --config Debug; cd build\Debug; .\DS_RPG.exe
+
+git add -A; git commit -m "Slime is animating a lot better now!"; git push

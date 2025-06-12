@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\dvdjr\OneDrive\Documents\Personal Projects\DS_RPG\build\CMakeFiles\397cd7dfcdd667c7291317470cc126b9\generate.stamp.rule">
+    <CustomBuild Include="C:\Users\dvdjr\OneDrive\Documents\PersonalProjects\DS_RPG\build\CMakeFiles\9ac4bac6b4080e012367b8d961f58140\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{57A378AD-D304-3BFB-8D6A-81DDC00CE0AC}</UniqueIdentifier>
+      <UniqueIdentifier>{3D8BB9B2-EC17-381E-9DAB-4375CB7D3E40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

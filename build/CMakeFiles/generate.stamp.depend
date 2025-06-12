@@ -89,30 +89,30 @@ C:/CSCI 220/share/cmake-3.31/Modules/Platform/Windows-MSVC.cmake
 C:/CSCI 220/share/cmake-3.31/Modules/Platform/Windows.cmake
 C:/CSCI 220/share/cmake-3.31/Modules/Platform/WindowsPaths.cmake
 C:/CSCI 220/share/cmake-3.31/Modules/SelectLibraryConfigurations.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/CMakeLists.txt
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/3.31.4/CMakeCXXCompiler.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/3.31.4/CMakeRCCompiler.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles/3.31.4/CMakeSystem.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-debug.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-release.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_imageConfig.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_imageConfigVersion.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-debug.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-release.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/png/vcpkg-cmake-wrapper.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Config.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2ConfigVersion.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets-debug.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets-release.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets-debug.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets-release.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/sdlfind.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/DS_RPG/vcpkg.json
-C:/Users/dvdjr/OneDrive/Documents/Personal Projects/vcpkg/scripts/buildsystems/vcpkg.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/CMakeLists.txt
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/CMakeFiles/3.31.4/CMakeCXXCompiler.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/CMakeFiles/3.31.4/CMakeRCCompiler.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/CMakeFiles/3.31.4/CMakeSystem.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-debug.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-release.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_imageConfig.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_image/SDL2_imageConfigVersion.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-debug.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-release.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/png/vcpkg-cmake-wrapper.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Config.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2ConfigVersion.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets-debug.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets-release.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2Targets.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets-debug.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets-release.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/SDL2mainTargets.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/sdl2/sdlfind.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/build/vcpkg_installed/x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/DS_RPG/vcpkg.json
+C:/Users/dvdjr/OneDrive/Documents/PersonalProjects/vcpkg/scripts/buildsystems/vcpkg.cmake

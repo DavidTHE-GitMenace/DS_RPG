@@ -84,19 +84,42 @@ public:
         return _adj[id];
     }
 
-    void chasePlayer(pair<int, int> enemyCoords, pair<int, int> playerCoords) {
-        // Convert the enemy and player coordinates to a NodeID
-        NodeId enemyPoint = nodeId(enemyCoords.first, enemyCoords.second);
-        NodeId playerPoint = nodeId(playerCoords.first, playerCoords.second);
+    void chasePlayer(
+        const std::pair<int, int>& enemyCoords,
+        const std::pair<int, int>& playerCoords,
+        SDL_Rect& object,
+        bool& up, bool& down, bool& left, bool& right,
+        bool& upLeft, bool& upRight, bool& downLeft, bool& downRight)
+    {
+        // Reset flags
+        up = down = left = right = upLeft = upRight = downLeft = downRight = false;
 
-        if (enemyCoords.first > playerCoords.first && enemyCoords.second > playerCoords.second) { // if player is above the enemy and on the left
-            
+        // Convert the enemy and player coordinates to a NodeID (for future pathfinding if needed)
+        // NodeId enemyPoint = nodeId(enemyCoords.first, enemyCoords.second);
+        // NodeId playerPoint = nodeId(playerCoords.first, playerCoords.second);
+
+        if (enemyCoords.second > playerCoords.second) {
+            // player is directly above
+            object.y -= 2;
+            up = true;
         }
-
-
-
+        if (enemyCoords.second < playerCoords.second) {
+            // player is directly below
+            object.y += 2;
+            down = true;
+        }
+        if (enemyCoords.first > playerCoords.first) {
+            // player is to the left
+            object.x -= 2;
+            left = true;
+        }
+        if (enemyCoords.first < playerCoords.first) {
+            // player is to the right
+            object.x += 2;
+            right = true;
+        }
     }
-
+    
     // I realized
 
     int rows() {return _rows;}
