@@ -98,22 +98,22 @@ public:
         // NodeId enemyPoint = nodeId(enemyCoords.first, enemyCoords.second);
         // NodeId playerPoint = nodeId(playerCoords.first, playerCoords.second);
 
-        if (enemyCoords.second > playerCoords.second) {
+        if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first + 15 && enemyCoords.first > playerCoords.first - 15) {
             // player is directly above
             object.y -= 2;
             up = true;
         }
-        if (enemyCoords.second < playerCoords.second) {
+        if (enemyCoords.second < playerCoords.second && enemyCoords.first < playerCoords.first + 15 && enemyCoords.first > playerCoords.first - 15) {
             // player is directly below
             object.y += 2;
             down = true;
         }
-        if (enemyCoords.first > playerCoords.first) {
+        if (enemyCoords.first > playerCoords.first && enemyCoords.second < playerCoords.second + 15 && enemyCoords.second > playerCoords.second - 15) {
             // player is to the left
             object.x -= 2;
             left = true;
         }
-        if (enemyCoords.first < playerCoords.first) {
+        if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second + 15 && enemyCoords.second > playerCoords.second - 15) {
             // player is to the right
             object.x += 2;
             right = true;
