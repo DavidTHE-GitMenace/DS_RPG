@@ -159,6 +159,15 @@ int main() {
     SDL_Surface* slimeIdle3 = IMG_Load("slimeAssets/slimeForward3.png");
     SDL_Texture* slimeIdle3Tex  = SDL_CreateTextureFromSurface(ren, slimeIdle3);
 
+    SDL_Surface* slimeForward1 = IMG_Load("slimeAssets/slimeDown1.png");
+    SDL_Texture* slimeForward1Tex  = SDL_CreateTextureFromSurface(ren, slimeForward1);
+
+    SDL_Surface* slimeForward2 = IMG_Load("slimeAssets/slimeDown2.png");
+    SDL_Texture* slimeForward2Tex  = SDL_CreateTextureFromSurface(ren, slimeForward2);
+
+    SDL_Surface* slimeForward3 = IMG_Load("slimeAssets/slimeDown3.png");
+    SDL_Texture* slimeForward3Tex  = SDL_CreateTextureFromSurface(ren, slimeForward3);
+
     SDL_Surface* slimeLeft1 = IMG_Load("slimeAssets/slimeLeft1.png");
     SDL_Texture* slimeLeft1Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft1);
 
@@ -168,14 +177,14 @@ int main() {
     SDL_Surface* slimeLeft3 = IMG_Load("slimeAssets/slimeLeft3.png");
     SDL_Texture* slimeLeft3Tex  = SDL_CreateTextureFromSurface(ren, slimeLeft3);
 
-    // SDL_Surface* slimeRight1 = IMG_Load("slimeAssets/slimeRight1.png");
-    // SDL_Texture* slimeRight1Tex  = SDL_CreateTextureFromSurface(ren, slimeRight1);
+    SDL_Surface* slimeRight1 = IMG_Load("slimeAssets/slimeRight1.png");
+    SDL_Texture* slimeRight1Tex  = SDL_CreateTextureFromSurface(ren, slimeRight1);
 
-    // SDL_Surface* slimeRight2 = IMG_Load("slimeAssets/slimeRight2.png");
-    // SDL_Texture* slimeRight2Tex  = SDL_CreateTextureFromSurface(ren, slimeRight2);
+    SDL_Surface* slimeRight2 = IMG_Load("slimeAssets/slimeRight2.png");
+    SDL_Texture* slimeRight2Tex  = SDL_CreateTextureFromSurface(ren, slimeRight2);
 
-    // SDL_Surface* slimeRight3 = IMG_Load("slimeAssets/slimeRight3.png");
-    // SDL_Texture* slimeRight3Tex  = SDL_CreateTextureFromSurface(ren, slimeRight3);
+    SDL_Surface* slimeRight3 = IMG_Load("slimeAssets/slimeRight3.png");
+    SDL_Texture* slimeRight3Tex  = SDL_CreateTextureFromSurface(ren, slimeRight3);
 
     SDL_Surface* slimeUp1 = IMG_Load("slimeAssets/slimeUp1.png");
     SDL_Texture* slimeUp1Tex  = SDL_CreateTextureFromSurface(ren, slimeUp1);
@@ -200,6 +209,8 @@ int main() {
     bool isSlimeUpLeft = false;
     bool isSlimeDownRight = false;
     bool isSlimeDownLeft = false;
+    bool isSlimeIdle = true;
+    
 
     // FOR SWITCHING THE FRAMES OF THE SLIME MOVING
     int slimeFrameCount = 0;
@@ -209,6 +220,10 @@ int main() {
     vector<SDL_Surface*> slimeIdleList = {slimeIdle1, slimeIdle2, slimeIdle3, slimeIdle2};
     vector<SDL_Texture*> slimeIdleTextureList = {slimeIdle1Tex, slimeIdle2Tex, slimeIdle3Tex, slimeIdle2Tex};
 
+    // forward list
+    vector<SDL_Surface*> slimeForwardList = {slimeForward1, slimeForward2, slimeForward3, slimeForward2};
+    vector<SDL_Texture*> slimeForwardTextureList = {slimeForward1Tex, slimeForward2Tex, slimeForward3Tex, slimeForward2Tex};
+
     // back list
     vector<SDL_Surface*> slimeBackList = {slimeUp1, slimeUp2, slimeUp3, slimeUp2};
     vector<SDL_Texture*> slimeBackTextureList = {slimeUp1Tex, slimeUp2Tex, slimeUp3Tex, slimeUp2Tex};
@@ -216,6 +231,12 @@ int main() {
     // left list
     vector<SDL_Surface*> slimeLeftList = {slimeLeft1, slimeLeft2, slimeLeft3, slimeLeft2};
     vector<SDL_Texture*> slimeLeftTextureList = {slimeLeft1Tex, slimeLeft2Tex, slimeLeft3Tex, slimeLeft2Tex};
+
+    // right list
+    vector<SDL_Surface*> slimeRightList = {slimeRight1, slimeRight2, slimeRight3, slimeRight2};
+    vector<SDL_Texture*> slimeRightTextureList = {slimeRight1Tex, slimeRight2Tex, slimeRight3Tex, slimeRight2Tex};
+
+    
 
     // --------------------------------------------------------------------------------------------
 
@@ -440,52 +461,50 @@ int main() {
     slimeCoordinates.second = slimeDst.y;
 
     // slime chasing player
-    worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
+    worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
 
-    if (isSlimeForward) {
-        isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+
+    // SLIME ANIMATION:
+
+    if (isSlimeBackward) {
+        isSlimeIdle = isSlimeForward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeBackList[slimeFrameCount];
+        currentSlimeTex = slimeBackTextureList[slimeFrameCount];
+    }
+    else if (isSlimeForward) {
+        isSlimeIdle = isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeForwardList[slimeFrameCount];
+        currentSlimeTex = slimeForwardTextureList[slimeFrameCount];
+    }
+    else if (isSlimeLeft) {
+        isSlimeIdle = isSlimeForward = isSlimeBackward = isSlimeRight = false; // only facing backwards
+
+        currentSlime = slimeLeftList[slimeFrameCount];
+        currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
+    }
+    else if (isSlimeRight) {
+        isSlimeIdle = isSlimeForward = isSlimeBackward = isSlimeLeft = false; // only facing backwards
+
+        currentSlime = slimeRightList[slimeFrameCount];
+        currentSlimeTex = slimeRightTextureList[slimeFrameCount];
+    }
+    else if (isSlimeIdle) {
+        isSlimeForward = isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards
 
         currentSlime = slimeIdleList[slimeFrameCount];
         currentSlimeTex = slimeIdleTextureList[slimeFrameCount];
 
-        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
-            ++slimeFrameCount;
-            if (slimeFrameCount == 4)  slimeFrameCount = 0;
-
-            slimeAccumulatedTime = 0.0f; // Resets the timer
-        }
-
     }
 
-    if (isSlimeBackward) {
-        isSlimeForward = isSlimeLeft = isSlimeRight = false; // only facing backwards
+    if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
+        ++slimeFrameCount;
+        if (slimeFrameCount == 4)  slimeFrameCount = 0;
 
-        currentSlime = slimeBackList[slimeFrameCount];
-        currentSlimeTex = slimeBackTextureList[slimeFrameCount];
-
-        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
-            ++slimeFrameCount;
-            if (slimeFrameCount == 4)  slimeFrameCount = 0;
-
-            slimeAccumulatedTime = 0.0f; // Resets the timer
-        }
-
+        slimeAccumulatedTime = 0.0f; // Resets the timer
     }
 
-    if (isSlimeLeft) {
-        isSlimeForward = isSlimeBackward = isSlimeRight = false; // only facing backwards
-
-        currentSlime = slimeLeftList[slimeFrameCount];
-        currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
-
-        if (slimeAccumulatedTime >= slimeAnimateDuration) { // ANIMATION RESETING BACK AND FORTH
-            ++slimeFrameCount;
-            if (slimeFrameCount == 4)  slimeFrameCount = 0;
-
-            slimeAccumulatedTime = 0.0f; // Resets the timer
-        }
-
-    }
     // --------------------------------------------------------------------------------------------
 
     

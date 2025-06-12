@@ -88,7 +88,7 @@ public:
         const std::pair<int, int>& enemyCoords,
         const std::pair<int, int>& playerCoords,
         SDL_Rect& object,
-        bool& up, bool& down, bool& left, bool& right,
+        bool& idle, bool& up, bool& down, bool& left, bool& right,
         bool& upLeft, bool& upRight, bool& downLeft, bool& downRight)
     {
         // Reset flags
@@ -98,25 +98,52 @@ public:
         // NodeId enemyPoint = nodeId(enemyCoords.first, enemyCoords.second);
         // NodeId playerPoint = nodeId(playerCoords.first, playerCoords.second);
 
-        if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first + 15 && enemyCoords.first > playerCoords.first - 15) {
+        if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first + 30 && enemyCoords.first > playerCoords.first - 30) {
             // player is directly above
             object.y -= 2;
             up = true;
         }
-        if (enemyCoords.second < playerCoords.second && enemyCoords.first < playerCoords.first + 15 && enemyCoords.first > playerCoords.first - 15) {
+        else if (enemyCoords.second < playerCoords.second && enemyCoords.first < playerCoords.first + 30 && enemyCoords.first > playerCoords.first - 30) {
             // player is directly below
             object.y += 2;
             down = true;
         }
-        if (enemyCoords.first > playerCoords.first && enemyCoords.second < playerCoords.second + 15 && enemyCoords.second > playerCoords.second - 15) {
+        else if (enemyCoords.first > playerCoords.first && enemyCoords.second < playerCoords.second + 30 && enemyCoords.second > playerCoords.second - 30) {
             // player is to the left
             object.x -= 2;
             left = true;
         }
-        if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second + 15 && enemyCoords.second > playerCoords.second - 15) {
+        else if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second + 30 && enemyCoords.second > playerCoords.second - 30) {
             // player is to the right
             object.x += 2;
             right = true;
+        }
+        else if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second) {
+            // player is below and to the right
+            object.x += 2;
+            object.y += 2;
+            right = true;
+        }
+        else if (enemyCoords.second < playerCoords.second && enemyCoords.first > playerCoords.first) {
+            // player is below and to the left
+            object.y += 2;
+            object.x -= 2;
+            left = true;
+        }
+        else if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first) {
+            // player is above and to the right
+            object.y -= 2;
+            object.x += 2;
+            right = true;
+        }
+        else if (enemyCoords.second > playerCoords.second && enemyCoords.first > playerCoords.first) {
+            // player is above and to the left
+            object.y -= 2;
+            object.x -= 2;
+            left = true;
+        }
+        else {
+            idle = true;
         }
     }
     
