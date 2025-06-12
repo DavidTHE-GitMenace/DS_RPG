@@ -1,6 +1,6 @@
 Detecting compiler hash for triplet x64-linux...
 Compiler found: /usr/bin/c++
-The following packages are already installed:
+The following packages will be built and installed:
   * brotli:x64-linux@1.1.0#1
   * bzip2[core,tool]:x64-linux@1.0.8#6
   * dbus[core,systemd]:x64-linux@1.16.2#1
@@ -24,6 +24,77 @@ The following packages are already installed:
   * vcpkg-tool-meson:x64-linux@1.7.2
   * zlib:x64-linux@1.3.1
   * zstd:x64-linux@1.5.7
+Additional packages (*) will be modified to complete this operation.
+Restored 23 package(s) from /mnt/c/Users/nkouk/.cache/vcpkg/archives in 19 s. Use --debug to see more details.
+Installing 1/23 vcpkg-cmake-config:x64-linux@2024-05-23...
+Elapsed time to handle vcpkg-cmake-config:x64-linux: 820 ms
+vcpkg-cmake-config:x64-linux package ABI: 6fbd90049de1389dfdbe4e365810aebd87db5f7afefd34aaf621f0e4b7884d42
+Installing 2/23 vcpkg-cmake:x64-linux@2024-04-23...
+Elapsed time to handle vcpkg-cmake:x64-linux: 1 s
+vcpkg-cmake:x64-linux package ABI: e4edddf5f044dbe159a1d21ecaca79b4bd69195ac3341b7f2d15fb320b605954
+Installing 3/23 zstd:x64-linux@1.5.7...
+Elapsed time to handle zstd:x64-linux: 2.3 s
+zstd:x64-linux package ABI: 9b19e1c48e48d528ea3e7d407a252b5eb0e83e327254acdc5364a6d888bc70a1
+Installing 4/23 vcpkg-cmake-get-vars:x64-linux@2024-09-22...
+Elapsed time to handle vcpkg-cmake-get-vars:x64-linux: 730 ms
+vcpkg-cmake-get-vars:x64-linux package ABI: 0739de6a1467fbab7be30eb730e63a658219abac8f92513d651c9d62bae4368e
+Installing 5/23 vcpkg-tool-meson:x64-linux@1.7.2...
+Elapsed time to handle vcpkg-tool-meson:x64-linux: 1.4 s
+vcpkg-tool-meson:x64-linux package ABI: 3e7dc85560a5736efdb3c3f31b49dcc3cdc80f529a5f5ddda5755a7cb4b53c87
+Installing 6/23 lz4:x64-linux@1.10.0...
+Elapsed time to handle lz4:x64-linux: 2.1 s
+lz4:x64-linux package ABI: 5947050c60e46d9d44924577b19c61a6dad95eff47849bd2b30811977e5b589e
+Installing 7/23 vcpkg-make:x64-linux@2025-04-25...
+Elapsed time to handle vcpkg-make:x64-linux: 1.4 s
+vcpkg-make:x64-linux package ABI: f6f430a35c6b718d42d358d4d29ad851aa02e0f83cb53705a980d12537575a52
+Installing 8/23 libxcrypt:x64-linux@4.4.38...
+Elapsed time to handle libxcrypt:x64-linux: 3.1 s
+libxcrypt:x64-linux package ABI: 00ad2b733edfdcdef7f78f2b01aa956378a45341dabd0ee84401ffc1be1abefc
+Installing 9/23 libmount:x64-linux@2.40...
+Elapsed time to handle libmount:x64-linux: 2.1 s
+libmount:x64-linux package ABI: 33d536ed05297f016db847014835c68cd34fbf67fd87a936b3a19186f4eaa0d3
+Installing 10/23 liblzma:x64-linux@5.8.1...
+Elapsed time to handle liblzma:x64-linux: 3.7 s
+liblzma:x64-linux package ABI: 23c6e64e294a208cc67774e1d847f78d8433fe3901fb356678b55b268715de98
+Installing 11/23 libcap:x64-linux@2.73...
+Elapsed time to handle libcap:x64-linux: 2.5 s
+libcap:x64-linux package ABI: 45c25f2719f22e1dc79eb1558f6b62908a5bd9e059c8bff3ae952ca3c08d2751
+Installing 12/23 gperf:x64-linux@3.1#7...
+Elapsed time to handle gperf:x64-linux: 2.5 s
+gperf:x64-linux package ABI: 09900462fc339b32bc006f0dfaf9deebd28163dba13810e5ddc01deb37890563
+Installing 13/23 libsystemd:x64-linux@256.4...
+Elapsed time to handle libsystemd:x64-linux: 6.7 s
+libsystemd:x64-linux package ABI: a811113b2f5cb259528597156c67d77df8d9723133c1e573380f66cb860afdcd
+Installing 14/23 expat:x64-linux@2.7.1...
+Elapsed time to handle expat:x64-linux: 4.4 s
+expat:x64-linux package ABI: e9d8a25d711413c42e6d5ff3c5e2eaf48171d0526c0059583aa247d2ca76aefe
+Installing 15/23 dbus[core,systemd]:x64-linux@1.16.2#1...
+Elapsed time to handle dbus:x64-linux: 18 s
+dbus:x64-linux package ABI: 47ed78c4b638468aa4cfdf014b9491061124d20af8128471bc7fcc4a1fb0cf8f
+Installing 16/23 sdl2[core,dbus,ibus,wayland,x11]:x64-linux@2.32.6...
+Elapsed time to handle sdl2:x64-linux: 10 s
+sdl2:x64-linux package ABI: f316a3106f1cfee523c1d711e5b984fb32ffd68813c3c1cef67e978f0f01aaf8
+Installing 17/23 zlib:x64-linux@1.3.1...
+Elapsed time to handle zlib:x64-linux: 7.4 s
+zlib:x64-linux package ABI: 180587c48204804345767e7afb05a59b6d2f9d9e49ed0cd9371bccf666296103
+Installing 18/23 libpng:x64-linux@1.6.47...
+Elapsed time to handle libpng:x64-linux: 6.7 s
+libpng:x64-linux package ABI: 6b94f376c20c196710d0849ae39786e7e1311302105e6c9caa3219c9418497b7
+Installing 19/23 sdl2-image:x64-linux@2.8.8#1...
+Elapsed time to handle sdl2-image:x64-linux: 3.8 s
+sdl2-image:x64-linux package ABI: 44922517601c0688c6ce8e1a3a321afa27cc7f75358916d8db296a23fe508815
+Installing 20/23 bzip2[core,tool]:x64-linux@1.0.8#6...
+Elapsed time to handle bzip2:x64-linux: 1.6 s
+bzip2:x64-linux package ABI: 1ea55167e3f62cb8919a16cadf788b756eed93365272b11431eb100588a6b3fb
+Installing 21/23 brotli:x64-linux@1.1.0#1...
+Elapsed time to handle brotli:x64-linux: 2.6 s
+brotli:x64-linux package ABI: 89965271cb2cb94e7b825530b7f5f6ba9645f803dca98d46b6d7fcd6dfa80612
+Installing 22/23 freetype[brotli,bzip2,core,png,zlib]:x64-linux@2.13.3...
+Elapsed time to handle freetype:x64-linux: 16 s
+freetype:x64-linux package ABI: 2e93fff778acbd8c8a7b69829ef3959b6baf1bcf5374f86a976499dbbcf9cbea
+Installing 23/23 sdl2-ttf:x64-linux@2.24.0...
+Elapsed time to handle sdl2-ttf:x64-linux: 2.9 s
+sdl2-ttf:x64-linux package ABI: 023ca933c004eac7193f24dd45599bd6557436f2ed4ddb714b1325f459e6ad2e
 sdl2 provides CMake targets:
 
     find_package(SDL2 CONFIG REQUIRED)
@@ -43,4 +114,4 @@ sdl2-ttf provides CMake targets:
     find_package(SDL2_ttf CONFIG REQUIRED)
     target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
 
-All requested installations completed successfully in: 68.6 ms
+All requested installations completed successfully in: 1.8 min

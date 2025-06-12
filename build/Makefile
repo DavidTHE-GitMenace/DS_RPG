@@ -129,6 +129,30 @@ DS_RPG/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/build
 .PHONY : DS_RPG/fast
 
+hash_table.o: hash_table.c.o
+.PHONY : hash_table.o
+
+# target to build an object file
+hash_table.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.o
+.PHONY : hash_table.c.o
+
+hash_table.i: hash_table.c.i
+.PHONY : hash_table.i
+
+# target to preprocess a source file
+hash_table.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.i
+.PHONY : hash_table.c.i
+
+hash_table.s: hash_table.c.s
+.PHONY : hash_table.s
+
+# target to generate assembly for a file
+hash_table.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.s
+.PHONY : hash_table.c.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... DS_RPG"
+	@echo "... hash_table.o"
+	@echo "... hash_table.i"
+	@echo "... hash_table.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -3,6 +3,7 @@
 // invisible walls, mouse-influenced character facing direction, and click-to-move
 
 #define SDL_MAIN_HANDLED
+#include "hash_table.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
@@ -46,6 +47,13 @@ enum Facing
     UP = 3
 };
 
+// Create window and renderer ----------------------------------------------------------------------------------
+SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
+                                      SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+SDL_Renderer *renderer = SDL_CreateRenderer(
+    window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
 // Weapon/Invetory data structure ----------------------------------------------------------------------------------------
 typedef struct
 {
@@ -65,6 +73,67 @@ typedef struct
 Weapon bow = {"bow", 40, IMG_LoadTexture(renderer, "weaponAssets/Bow.png")};
 Weapon sword1 = {"sword1", 50, IMG_LoadTexture(renderer, "weaponAssets/Sword1.png")};
 Weapon sword2 = {"sword2", 70, IMG_LoadTexture(renderer, "weaponAssets/Sword2.png")};
+
+// InventoryEntry slot1 = {&bow, 1, ...};
+// InventoryEntry slot2 = {&sword1, 1, ...};
+// InventoryEntry slot3 = {&sword2, 1, ...};
+
+// InventoryEntry *Inventory = calloc(3, sizeof(InventoryEntry);
+
+// ... NULL
+// ... NULL
+// ... NULL
+
+// InventoryEntry Inventory['hotbar1'];
+// InventoryEntry Inventory['hotbar2'];
+// InventoryEntry Inventory['hotbar3'];
+
+//
+
+// int arr [3];
+// arr[0]=1
+// arr[1] = 2
+// arr[2] = 3;
+
+// InventoryEntry Inventory['hotbar1'] = slot1;
+
+// InventoryEntry Inventory['hotbar2'] = slot2;
+// InventoryEntry Inventory['hotbar3'] = slot3;
+
+// Empty Inventory
+// pickup(){
+// bow
+// if I click on the bow
+
+// Inventory['hotbar1'] = bowSlot;
+
+// sword
+//  if I click on sword2
+
+// loop through. Check if 'hotbar1' is empty.
+
+// for (int i=1; i<sizeof(InventoryEntry); i++){
+//   InventoryEntry["hotbar" + i].;
+// }
+
+// If not, check 'hotbar2'
+// if empty,
+
+// Inventory['hotbar2'] = sword2Slot;
+
+// = {slot1, slot2, slot3};
+
+// InventoryEntry Inventory['hotbar1'] = slot1;
+// InventoryEntry Inventory['hotbar2'] = slot2;
+// InventoryEntry Inventory['hotbar3'] = slot3;
+
+// Inventory temp = Inventory['hotbar1']
+// Invetory['hotbar1'] = Invetory['hotbar2']
+// Invetory['hotbar2'] = temp
+
+// table ['bow'] = bow;
+// table ['sword1'] = sword1;
+// table ['sword2'] = sword2;
 
 // Tile data structure ----------------------------------------------------------------------------------------
 typedef struct
@@ -114,13 +183,6 @@ int main()
         SDL_Quit();
         return 1;
     }
-
-    // Create window and renderer ----------------------------------------------------------------------------------
-    SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
-                                          SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                          SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    SDL_Renderer *renderer = SDL_CreateRenderer(
-        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     // Load directional player textures using SDL_Texture directly --------------------------------------------------
     SDL_Texture *texDown = IMG_LoadTexture(renderer, "playerAssets/playerForward.png");

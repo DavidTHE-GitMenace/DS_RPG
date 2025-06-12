@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(DS_RPG VERSION 0.1 LANGUAGES CXX)
+project(DS_RPG VERSION 0.1 LANGUAGES C CXX)
 
 # ─── C++ Standard ──────────────────────────────────────────────────────────────
 set(CMAKE_CXX_STANDARD 23)
@@ -24,7 +24,7 @@ find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
 
 # ─── Executable ────────────────────────────────────────────────────────────────
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp hash_table.c)
 
 # ─── Link Libraries ────────────────────────────────────────────────────────────
 target_link_libraries(${PROJECT_NAME}
