@@ -461,11 +461,11 @@ int main() {
     slimeCoordinates.second = slimeDst.y;
 
     // slime chasing player
-    worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
-
+    if (slimeCoordinates.first - playerCoordinates.first < 150 || slimeCoordinates.second - playerCoordinates.second < 150) {
+        worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
+    }
 
     // SLIME ANIMATION:
-
     if (isSlimeBackward) {
         isSlimeIdle = isSlimeForward = isSlimeLeft = isSlimeRight = false; // only facing backwards
 
@@ -511,7 +511,7 @@ int main() {
     // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
         // 2) Clear the screen to a background color
-        SDL_SetRenderDrawColor(ren, 30, 30, 30, 255); // BACKGROUND: dark gray
+        SDL_SetRenderDrawColor(ren, 10, 120, 10, 255); // BACKGROUND: dark gray
         SDL_RenderClear(ren);
         
         /* HOW TO MODIFY THE VALUES FOR RECT OBJECTS:
