@@ -57,6 +57,17 @@ int main() {
 
     // ------------------------------------------------------------------------------------------------------------------------------------
 
+    // RANDOMNESS VARIABLES -----------------------------------------------------------------------
+
+    mt19937 mt(static_cast<uint32_t>(chrono::steady_clock::now().time_since_epoch().count()));
+    uniform_int_distribution<int> dir(0, 8);
+    int enemyDirectionRVal = dir(mt);
+    uniform_real_distribution<float> rT(3.0, 5.0);
+    float enemyRoamDurationRVal = rT(mt);
+    
+
+    // --------------------------------------------------------------------------------------------
+
     // MAKING THE GRID GRAPH FOR ENEMIES AND OBECTS ---------------------------------------------------------------------------------------
 
     GridGraph worldGrid(1700, 1000);
@@ -252,9 +263,11 @@ int main() {
     TimePoint lastTime = Clock::now();
     float accumulatedTime = 0.0f;
     float slimeAccumulatedTime = 0.0f;
+    float enemyRoamTime = 0.0f;
     
     const float playerAnimateDuration = 0.1f;
     const float slimeAnimateDuration = 0.125f;
+    
 
     // ------------------------------------------------------------------------------------------------------------------------------------
    
@@ -274,6 +287,14 @@ int main() {
         lastTime = now;
         accumulatedTime += delta.count(); // delta.count() gives seconds as float
         slimeAccumulatedTime += delta.count(); 
+        enemyRoamTime += delta.count();
+
+        // ----------------------------------------------------------------------------------------
+
+        // RANDOM VARIBLES CHANGING IT'S VALUES ---------------------------------------------------
+
+        enemyDirectionRVal = dir(mt);
+        enemyRoamDurationRVal = rT(mt);
 
         // ----------------------------------------------------------------------------------------
     
@@ -461,34 +482,74 @@ int main() {
     slimeCoordinates.second = slimeDst.y;
 
     // slime chasing player
-    if (slimeCoordinates.first - playerCoordinates.first < 150 || slimeCoordinates.second - playerCoordinates.second < 150) {
-        worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
+    if (slimeCoordinates.first - playerCoordinates.first < 70 || slimeCoordinates.second - playerCoordinates.second < 70) {
+        worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, 
+            isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, 
+            isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
+    }
+    else { // slime roaming
+        worldGrid.roam(slimeDst, 
+            isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, 
+            isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight, 
+            enemyDirectionRVal, enemyRoamTime, enemyRoamDurationRVal);
     }
 
-    // SLIME ANIMATION:
+
+    // SLIME ANIMATION AND MOVEMENT:
     if (isSlimeBackward) {
         isSlimeIdle = isSlimeForward = isSlimeLeft = isSlimeRight = false; // only facing backwards
 
         currentSlime = slimeBackList[slimeFrameCount];
         currentSlimeTex = slimeBackTextureList[slimeFrameCount];
+        slimeDst.y -= 2;
     }
     else if (isSlimeForward) {
         isSlimeIdle = isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards
 
         currentSlime = slimeForwardList[slimeFrameCount];
         currentSlimeTex = slimeForwardTextureList[slimeFrameCount];
+        slimeDst.y += 2;
     }
     else if (isSlimeLeft) {
         isSlimeIdle = isSlimeForward = isSlimeBackward = isSlimeRight = false; // only facing backwards
 
         currentSlime = slimeLeftList[slimeFrameCount];
         currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
+        slimeDst.x -= 2;
+    }
+    else if (isSlimeUpLeft) {
+        currentSlime = slimeLeftList[slimeFrameCount];
+        currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
+        slimeDst.x -= 2;
+        slimeDst.y -= 2;
+    }
+    else if (isSlimeDownLeft) {
+        currentSlime = slimeLeftList[slimeFrameCount];
+        currentSlimeTex = slimeLeftTextureList[slimeFrameCount];
+        slimeDst.x -= 2;
+        slimeDst.y += 2;
     }
     else if (isSlimeRight) {
         isSlimeIdle = isSlimeForward = isSlimeBackward = isSlimeLeft = false; // only facing backwards
 
         currentSlime = slimeRightList[slimeFrameCount];
         currentSlimeTex = slimeRightTextureList[slimeFrameCount];
+
+        slimeDst.x += 2;
+    }
+    else if (isSlimeUpRight) {
+        currentSlime = slimeRightList[slimeFrameCount];
+        currentSlimeTex = slimeRightTextureList[slimeFrameCount];
+
+        slimeDst.x += 2;
+        slimeDst.y -= 2;
+    }
+    else if (isSlimeDownRight) {
+        currentSlime = slimeRightList[slimeFrameCount];
+        currentSlimeTex = slimeRightTextureList[slimeFrameCount];
+
+        slimeDst.x += 2;
+        slimeDst.y += 2;
     }
     else if (isSlimeIdle) {
         isSlimeForward = isSlimeBackward = isSlimeLeft = isSlimeRight = false; // only facing backwards

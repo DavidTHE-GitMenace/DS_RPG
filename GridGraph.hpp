@@ -100,51 +100,100 @@ public:
 
         if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first + 30 && enemyCoords.first > playerCoords.first - 30) {
             // player is directly above
-            object.y -= 2;
+            object.y -= 1;
             up = true;
         }
         else if (enemyCoords.second < playerCoords.second && enemyCoords.first < playerCoords.first + 30 && enemyCoords.first > playerCoords.first - 30) {
             // player is directly below
-            object.y += 2;
+            object.y += 1;
             down = true;
         }
         else if (enemyCoords.first > playerCoords.first && enemyCoords.second < playerCoords.second + 30 && enemyCoords.second > playerCoords.second - 30) {
             // player is to the left
-            object.x -= 2;
+            object.x -= 1;
             left = true;
         }
         else if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second + 30 && enemyCoords.second > playerCoords.second - 30) {
             // player is to the right
-            object.x += 2;
+            object.x += 1;
             right = true;
         }
         else if (enemyCoords.first < playerCoords.first && enemyCoords.second < playerCoords.second) {
             // player is below and to the right
-            object.x += 2;
-            object.y += 2;
+            object.x += 1;
+            object.y += 1;
             right = true;
         }
         else if (enemyCoords.second < playerCoords.second && enemyCoords.first > playerCoords.first) {
             // player is below and to the left
-            object.y += 2;
-            object.x -= 2;
+            object.y += 1;
+            object.x -= 1;
             left = true;
         }
         else if (enemyCoords.second > playerCoords.second && enemyCoords.first < playerCoords.first) {
             // player is above and to the right
-            object.y -= 2;
-            object.x += 2;
+            object.y -= 1;
+            object.x += 1;
             right = true;
         }
         else if (enemyCoords.second > playerCoords.second && enemyCoords.first > playerCoords.first) {
             // player is above and to the left
-            object.y -= 2;
-            object.x -= 2;
+            object.y -= 1;
+            object.x -= 1;
             left = true;
         }
         else {
             idle = true;
         }
+    }
+
+    void roam(
+        SDL_Rect& object,
+        bool& idle, bool& up, bool& down, bool& left, bool& right,
+        bool& upLeft, bool& upRight, bool& downLeft, bool& downRight, 
+        int randomDirectionVar, float& timer, float duration
+    ) {
+
+        if (timer >= duration) {
+            timer = 0.0;
+            // cout << "This got printed" << endl;
+            if (randomDirectionVar == 0) { // idle
+                idle = true;
+                up = down = left = right = upLeft = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 1) { // up
+                up = true;
+                idle = down = left = right = upLeft = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 2) { // down
+                down = true;
+                up = idle = left = right = upLeft = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 3) { // right
+                right = true;
+                up = down = left = idle = upLeft = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 4) { // left
+                left = true;
+                up = down = idle = right = upLeft = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 5) { // up right
+                upRight = true;
+                up = down = left = idle = upLeft = right = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 6) { // up left
+                upLeft = true;
+                up = down = idle = right = left = upRight = downLeft = downRight = false;
+            }
+            else if (randomDirectionVar == 7) { // down right
+                downRight = true;
+                up = down = left = idle = upLeft = upRight = downLeft = right = false;
+            }
+            else if (randomDirectionVar == 8) { // down left
+                downLeft = true;
+                up = down = idle = right = upLeft = upRight = left = downRight = false;
+            }
+        }  
     }
     
     // I realized
