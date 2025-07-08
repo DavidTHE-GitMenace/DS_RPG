@@ -14,6 +14,7 @@
 using namespace std;
 
 int main() {
+    cout << "hellllllllllllllllllllllllllllllllllllllllllllllllllllllllllo" << endl;
     // Initialize SDL and Window/Image Settings -------------------------------------------------------------------------------------------
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -70,7 +71,7 @@ int main() {
 
     // MAKING THE GRID GRAPH FOR ENEMIES AND OBECTS ---------------------------------------------------------------------------------------
 
-    GridGraph worldGrid(1700, 1000);
+    GridGraph worldGrid(1600, 1000);
     pair <int, int> playerCoordinates;
     pair <int, int> slimeCoordinates;
 
@@ -247,13 +248,22 @@ int main() {
     vector<SDL_Surface*> slimeRightList = {slimeRight1, slimeRight2, slimeRight3, slimeRight2};
     vector<SDL_Texture*> slimeRightTextureList = {slimeRight1Tex, slimeRight2Tex, slimeRight3Tex, slimeRight2Tex};
 
-    
-
     // --------------------------------------------------------------------------------------------
+
+    // ENVIRONMENT SPRITES: -----------------------------------------------------------------------
+    // ROCK:
+    SDL_Surface* rock1 = IMG_Load("environmentAssets/rock.png");
+    SDL_Texture* rock1Tex = SDL_CreateTextureFromSurface(ren, rock1);
+    SDL_Rect rockFrame{500, 200, 150, 150}; 
 
 
     // ------------------------------------------------------------------------------------------------------------------------------------
 
+    // HITBOX LINES FOR OBJECTS: ----------------------------------------------
+
+    SDL_Rect playerLine{playerDst.x, playerDst.y + playerDst.h, playerDst.w, 4}; 
+
+    // ------------------------------------------------------------------------
 
     // CLOCKS FOR THE ANIMATION:
     using Clock = std::chrono::high_resolution_clock;  
@@ -331,6 +341,17 @@ int main() {
                 playerForward = playerBackward = playerForward = playerBackward = false;
             }
         }
+
+        // COLORS: --------------------------------------------------------------------------------
+        SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);   // red
+        SDL_RenderFillRect(ren, &playerLine);
+        SDL_RenderPresent(ren);
+        playerLine.x = playerDst.x;
+        playerLine.y = playerDst.y + playerDst.h - 5;
+        playerLine.w = playerDst.w;
+         
+
+        // ----------------------------------------------------------------------------------------
 
         if (keystate[SDL_SCANCODE_DOWN] && keystate[SDL_SCANCODE_LEFT]) {
             playerDst.y += 15;
@@ -482,7 +503,7 @@ int main() {
     slimeCoordinates.second = slimeDst.y;
 
     // slime chasing player
-    if (slimeCoordinates.first - playerCoordinates.first < 70 || slimeCoordinates.second - playerCoordinates.second < 70) {
+    if (slimeCoordinates.first - playerCoordinates.first < 35 || slimeCoordinates.second - playerCoordinates.second < 35) {
         worldGrid.chasePlayer(slimeCoordinates, playerCoordinates, slimeDst, 
             isSlimeIdle, isSlimeBackward, isSlimeForward, isSlimeLeft, isSlimeRight, 
             isSlimeUpLeft, isSlimeUpRight, isSlimeDownLeft, isSlimeDownRight);
@@ -572,7 +593,7 @@ int main() {
     // RENDERING THE OBJECTS: ---------------------------------------------------------------------
 
         // 2) Clear the screen to a background color
-        SDL_SetRenderDrawColor(ren, 10, 120, 10, 255); // BACKGROUND: dark gray
+        SDL_SetRenderDrawColor(ren, 255, 255, 255, 255); // BACKGROUND: white
         SDL_RenderClear(ren);
         
         /* HOW TO MODIFY THE VALUES FOR RECT OBJECTS:
@@ -582,19 +603,27 @@ int main() {
             rect.h = ...;  // height
         */
 
-        // THIS IS THE RED CUBE
-        // SDL_SetRenderDrawColor(ren, 255, 0, 0, 255); // red
-        // SDL_RenderFillRect(ren, &rect);
-
-        // THIS IS THE BLUE CUBE
-        // SDL_SetRenderDrawColor(ren, 0, 0, 255, 255); // blue
-        // SDL_RenderFillRect(ren, &rect2);
 
         // THIS IS THE PLAYER
         SDL_RenderCopy(ren, currentPlayerTex, nullptr, &playerDst);
 
         // THIS IS THE SLIME
         SDL_RenderCopy(ren, currentSlimeTex, nullptr, &slimeDst);
+
+        // THIS IS THE ROCK
+        SDL_RenderCopy(ren, rock1Tex, nullptr, &rockFrame);
+
+        // Player Line
+
+
+        if (playerDst.y + playerDst.h >= rockFrame.y + rockFrame.h - 35) {
+            SDL_RenderCopy(ren, currentPlayerTex, nullptr, &playerDst);
+        }
+        else {
+            SDL_RenderCopy(ren, rock1Tex, nullptr, &rockFrame);
+        }
+
+
 
         // RENDERS EVERTYING UNDER "REN"
         SDL_RenderPresent(ren);

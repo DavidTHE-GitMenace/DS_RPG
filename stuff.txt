@@ -1,3 +1,8 @@
 cd ..\..; cmake --build build --config Debug; cd build\Debug; .\DS_RPG.exe
 
 git add -A; git commit -m "Slime is animating a lot better now!"; git push
+
+GOALS FOR GRAPH DATA STRUCTURE:
+- I NEED TO BE ABLE TO PLACE A PIECE OF LANDSCAPE DOWN AND IT HAS IT'S OWN BARRIER.
+- I WANT TO CREATE AN OBJECT, PUT IT ON THE GROUND AND IT HAS IT'S OWN BARRIER ON THE GRAPH 
+    TO MAKE SURE PLAYERS AND ENEMIES CANT WALK THROUGH IT.

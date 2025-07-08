@@ -32,29 +32,49 @@ public:
     // constructor
     GridGraph(int rows, int cols) : _rows(rows), _cols(cols), 
     _adj(rows * cols) // assigning the vector to how many vectors of NodeIds it'll have
+    // _grid(rows * cols)
     {
         for (int r = 0; r < _rows; ++r) {
             for (int c = 0; c < _cols; ++c) {
                 NodeId id = nodeId(r, c); // to go to each NodeId's neighbor vector list in _adj
+                pair<NodeId, string> gridInfo;
+                gridInfo.second = "E";
+
 
                 // to find and add the number above it if there is a row that exists above the current row
-                if (r > 0)                  _adj[id].push_back(nodeId(r - 1, c)); 
+                if (r > 0) {
+                    _adj[id].push_back(nodeId(r - 1, c)); 
+                    gridInfo.first = nodeId(r - 1, c);
+                    _grid[id].push_back(gridInfo);
+                }
                 /*
-                                                            ^
-                                                            |
-                                                            |
+                                ^
+                                |
+                                |
                               it'll push NodeId's neighbor number to the current NodeId 
                               vector where it stores the current number's neighboring numbers
                 */                          
 
                 // to find and add the number below it if there is a row that exists below the current row
-                if (r < _rows - 1)          _adj[id].push_back(nodeId(r + 1, c));
+                if (r < _rows - 1) {
+                    _adj[id].push_back(nodeId(r + 1, c));
+                    gridInfo.first = nodeId(r + 1, c);
+                    _grid[id].push_back(gridInfo);
+                }
 
                 // to find and add the number on its left if there is a column that exists to the left of the current column
-                if (c > 0)                  _adj[id].push_back(nodeId(r, c - 1)); 
+                if (c > 0) {
+                    _adj[id].push_back(nodeId(r, c - 1)); 
+                    gridInfo.first = nodeId(r, c - 1);
+                    _grid[id].push_back(gridInfo);
+                }                  
 
                 // to find and add the number on its right if there is a column that exists to the right of the current column
-                if (c < _cols - 1)          _adj[id].push_back(nodeId(r, c + 1)); 
+                if (c < _cols - 1) {
+                    _adj[id].push_back(nodeId(r, c + 1)); 
+                    gridInfo.first = nodeId(r, c + 1);
+                    _grid[id].push_back(gridInfo);
+                }
             }
         }
 
@@ -206,4 +226,6 @@ private:
     int _rows;
     int _cols;
     vector<vector<NodeId>> _adj;
+    vector<vector<pair<NodeId, string>>> _grid;
+    
 };
