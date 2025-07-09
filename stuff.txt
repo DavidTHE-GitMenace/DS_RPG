@@ -1,3 +1,15 @@
 cd ..\..; cmake --build build --config Debug; cd build\Debug; .\DS_RPG.exe
 
 git add -A; git commit -m "Slime is animating a lot better now!"; git push
+
+Switching branches:
+git switch "branch"
+
+Pushing to a branch:
+git add -A; git commit -m "Blah blah"; git push origin "branch"
+
+Merging branches (make sure you're on the branch you want to merge with):
+git merge testing
+
+Adding stuff from other branches:
+git pull
