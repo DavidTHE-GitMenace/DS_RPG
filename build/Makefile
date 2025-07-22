@@ -129,29 +129,29 @@ DS_RPG/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/build
 .PHONY : DS_RPG/fast
 
-hash_table.o: hash_table.c.o
+hash_table.o: hash_table.cpp.o
 .PHONY : hash_table.o
 
 # target to build an object file
-hash_table.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.o
-.PHONY : hash_table.c.o
+hash_table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.cpp.o
+.PHONY : hash_table.cpp.o
 
-hash_table.i: hash_table.c.i
+hash_table.i: hash_table.cpp.i
 .PHONY : hash_table.i
 
 # target to preprocess a source file
-hash_table.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.i
-.PHONY : hash_table.c.i
+hash_table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.cpp.i
+.PHONY : hash_table.cpp.i
 
-hash_table.s: hash_table.c.s
+hash_table.s: hash_table.cpp.s
 .PHONY : hash_table.s
 
 # target to generate assembly for a file
-hash_table.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.c.s
-.PHONY : hash_table.c.s
+hash_table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/hash_table.cpp.s
+.PHONY : hash_table.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o

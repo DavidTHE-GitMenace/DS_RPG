@@ -83,19 +83,19 @@ CMakeFiles/DS_RPG.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DS_RPG.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/main.cpp" -o CMakeFiles/DS_RPG.dir/main.cpp.s
 
-CMakeFiles/DS_RPG.dir/hash_table.c.o: CMakeFiles/DS_RPG.dir/flags.make
-CMakeFiles/DS_RPG.dir/hash_table.c.o: ../hash_table.c
-CMakeFiles/DS_RPG.dir/hash_table.c.o: CMakeFiles/DS_RPG.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/DS_RPG.dir/hash_table.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/DS_RPG.dir/hash_table.c.o -MF CMakeFiles/DS_RPG.dir/hash_table.c.o.d -o CMakeFiles/DS_RPG.dir/hash_table.c.o -c "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.c"
+CMakeFiles/DS_RPG.dir/hash_table.cpp.o: CMakeFiles/DS_RPG.dir/flags.make
+CMakeFiles/DS_RPG.dir/hash_table.cpp.o: ../hash_table.cpp
+CMakeFiles/DS_RPG.dir/hash_table.cpp.o: CMakeFiles/DS_RPG.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/DS_RPG.dir/hash_table.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DS_RPG.dir/hash_table.cpp.o -MF CMakeFiles/DS_RPG.dir/hash_table.cpp.o.d -o CMakeFiles/DS_RPG.dir/hash_table.cpp.o -c "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.cpp"
 
-CMakeFiles/DS_RPG.dir/hash_table.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/DS_RPG.dir/hash_table.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.c" > CMakeFiles/DS_RPG.dir/hash_table.c.i
+CMakeFiles/DS_RPG.dir/hash_table.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DS_RPG.dir/hash_table.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.cpp" > CMakeFiles/DS_RPG.dir/hash_table.cpp.i
 
-CMakeFiles/DS_RPG.dir/hash_table.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/DS_RPG.dir/hash_table.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.c" -o CMakeFiles/DS_RPG.dir/hash_table.c.s
+CMakeFiles/DS_RPG.dir/hash_table.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DS_RPG.dir/hash_table.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/hash_table.cpp" -o CMakeFiles/DS_RPG.dir/hash_table.cpp.s
 
 CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o: CMakeFiles/DS_RPG.dir/flags.make
 CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o: ../weapon_loader.cpp
@@ -114,14 +114,14 @@ CMakeFiles/DS_RPG.dir/weapon_loader.cpp.s: cmake_force
 # Object files for target DS_RPG
 DS_RPG_OBJECTS = \
 "CMakeFiles/DS_RPG.dir/main.cpp.o" \
-"CMakeFiles/DS_RPG.dir/hash_table.c.o" \
+"CMakeFiles/DS_RPG.dir/hash_table.cpp.o" \
 "CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o"
 
 # External object files for target DS_RPG
 DS_RPG_EXTERNAL_OBJECTS =
 
 DS_RPG: CMakeFiles/DS_RPG.dir/main.cpp.o
-DS_RPG: CMakeFiles/DS_RPG.dir/hash_table.c.o
+DS_RPG: CMakeFiles/DS_RPG.dir/hash_table.cpp.o
 DS_RPG: CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o
 DS_RPG: CMakeFiles/DS_RPG.dir/build.make
 DS_RPG: vcpkg_installed/x64-linux/debug/lib/libSDL2maind.a

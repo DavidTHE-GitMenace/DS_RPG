@@ -17,6 +17,7 @@
 #include <cstddef>
 #include <random>
 #include <thread>
+#include <string.h>
 
 // Screen and tile dimensions -------------------------------------------------------------------------------
 #define SCREEN_WIDTH 800  // Viewport width in pixels
@@ -56,8 +57,8 @@ SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
 SDL_Renderer *renderer = SDL_CreateRenderer(
     window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-HashTable weaponTable;    // stores all weapons by name
-init_table(&weaponTable); // Pass the allocated table to the function
+HashTable *weaponTable = (HashTable *)malloc(sizeof(HashTable)); // stores all weapons by name
+init_table(weaponTable);                                         // Pass the allocated table to the function
 
 // // Insert bow into weaponTable
 // Weapon *bow = loadWeaponFromJson("weapons/bow.json", renderer);
