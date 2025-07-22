@@ -239,8 +239,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/strip
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=/mnt/c/Users/nkouk/vcpkg/scripts/buildsystems/vcpkg.cmake
+//Vcpkg toolchain file
+CMAKE_TOOLCHAIN_FILE:STRING=/mnt/c/Users/nkouk/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -351,6 +351,9 @@ Z_VCPKG_CL:FILEPATH=Z_VCPKG_CL-NOTFOUND
 //The directory which contains the installed libraries for each
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed
+
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=nlohmann_json_DIR-NOTFOUND
 
 
 ########################
@@ -524,6 +527,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_BZip2:INTERNAL=[/mnt/c/Users/nkouk/OneDrive/Documen
 FIND_PACKAGE_MESSAGE_DETAILS_PNG:INTERNAL=[/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/lib/libpng16.a][/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/include][v1.6.47()]
 //Details about finding ZLIB
 FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/lib/libz.a][/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/include][v1.3.1()]
+//Details about finding nlohmann_json
+FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[/mnt/c/Users/nkouk/OneDrive/Documents/Personal Projects/DS_RPG/build/vcpkg_installed/x64-linux/share/nlohmann_json/nlohmann_jsonConfig.cmake][v3.12.0()]
 //ADVANCED property for variable: FREETYPE_LIBRARY_DEBUG
 FREETYPE_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //vcpkg

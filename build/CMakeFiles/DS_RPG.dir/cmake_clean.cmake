@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/DS_RPG.dir/hash_table.c.o.d"
   "CMakeFiles/DS_RPG.dir/main.cpp.o"
   "CMakeFiles/DS_RPG.dir/main.cpp.o.d"
+  "CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o"
+  "CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o.d"
   "DS_RPG"
   "DS_RPG.pdb"
 )

@@ -30,7 +30,7 @@ void init_table(HashTable *table) // Initializes each bucket entry to NULL
 }
 
 // Insert or update a key-value pair
-void put(HashTable *table, const char *key, const char *value)
+void put(HashTable *table, const char *key, void *value)
 {
     uint64_t hash = djb_hash(key);            // Converts the string key into a number
     int index = hash % TABLE_SIZE;            // Makes valid index of the string key for the table

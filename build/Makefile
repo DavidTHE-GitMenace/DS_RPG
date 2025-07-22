@@ -177,6 +177,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+weapon_loader.o: weapon_loader.cpp.o
+.PHONY : weapon_loader.o
+
+# target to build an object file
+weapon_loader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/weapon_loader.cpp.o
+.PHONY : weapon_loader.cpp.o
+
+weapon_loader.i: weapon_loader.cpp.i
+.PHONY : weapon_loader.i
+
+# target to preprocess a source file
+weapon_loader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/weapon_loader.cpp.i
+.PHONY : weapon_loader.cpp.i
+
+weapon_loader.s: weapon_loader.cpp.s
+.PHONY : weapon_loader.s
+
+# target to generate assembly for a file
+weapon_loader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DS_RPG.dir/build.make CMakeFiles/DS_RPG.dir/weapon_loader.cpp.s
+.PHONY : weapon_loader.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +216,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... weapon_loader.o"
+	@echo "... weapon_loader.i"
+	@echo "... weapon_loader.s"
 .PHONY : help
 
 

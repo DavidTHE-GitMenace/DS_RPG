@@ -1,0 +1,5 @@
+{
+  "name": "Bow",
+  "damage": 40,
+  "sprite": "weaponAssets/Bow.png"
+}

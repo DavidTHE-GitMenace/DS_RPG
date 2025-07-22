@@ -14,7 +14,7 @@ extern "C"
     typedef struct HashEntry
     {
         const char *key;
-        const char *value;
+        void *value;
         struct HashEntry *next;
     } HashEntry;
 
@@ -25,7 +25,7 @@ extern "C"
 
     uint64_t djb_hash(const char *str);
     void init_table(HashTable *table);
-    void put(HashTable *table, const char *key, const char *value);
+    void put(HashTable *table, const char *key, void *value);
     const char *get(HashTable *table, const char *key);
 
 #ifdef __cplusplus
