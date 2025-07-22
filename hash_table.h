@@ -3,8 +3,9 @@
 #pragma once
 
 #include <stdint.h>
+#define TABLE_SIZE 53
 
-#ifdef __cplusplus
+  #ifdef __cplusplus
 extern "C"
 {
 #endif
@@ -27,7 +28,6 @@ extern "C"
     void init_table(HashTable *table);
     void put(HashTable *table, const char *key, void *value);
     const char *get(HashTable *table, const char *key);
-
 #ifdef __cplusplus
 }
 #endif

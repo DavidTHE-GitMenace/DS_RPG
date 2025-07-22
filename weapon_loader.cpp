@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <SDL2/SDL_image.h>
-#include "Weapon.h"
+#include "weapon.h"
 #include "hash_table.h"
 
 // Loads a Weapon from a JSON file and returns a pointer to a dynamically allocated Weapon struct

@@ -4,6 +4,8 @@
 
 #define SDL_MAIN_HANDLED
 #include "hash_table.h"
+#include "weapon_loader.h" // Ensure this is included
+#include "weapon.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
@@ -54,25 +56,16 @@ SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
 SDL_Renderer *renderer = SDL_CreateRenderer(
     window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-// Weapon/Invetory data structure ----------------------------------------------------------------------------------------
-typedef struct
-{
-    const char *name;
-    int damage;
-    // int quanity, cooldown;
-    SDL_Texture *sprite;
-} Weapon;
+HashTable weaponTable;    // stores all weapons by name
+init_table(&weaponTable); // Pass the allocated table to the function
 
-typedef struct
-{
-    Weapon *weapon;    // Pointer to weapon data (shared if weapon is unique)
-    int quantity;      // How many copies player has
-    SDL_Rect iconRect; // Position/size in inventory UI (optional)
-} InventoryEntry;
+// // Insert bow into weaponTable
+// Weapon *bow = loadWeaponFromJson("weapons/bow.json", renderer);
+// put(weaponTable, "bow", bow);
 
-Weapon bow = {"bow", 40, IMG_LoadTexture(renderer, "weaponAssets/Bow.png")};
-Weapon sword1 = {"sword1", 50, IMG_LoadTexture(renderer, "weaponAssets/Sword1.png")};
-Weapon sword2 = {"sword2", 70, IMG_LoadTexture(renderer, "weaponAssets/Sword2.png")};
+// // Insert sword into weaponTable
+// Weapon *bow = loadWeaponFromJson("weapons/sword.json", renderer);
+// put(weaponTable, "sword", sword);
 
 // InventoryEntry slot1 = {&bow, 1, ...};
 // InventoryEntry slot2 = {&sword1, 1, ...};
@@ -171,6 +164,7 @@ static float camlerp(float a, float b, float t)
 
 int main()
 {
+
     // SDL initialization -----------------------------------------------------------------------------------------
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {

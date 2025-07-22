@@ -12,6 +12,15 @@ Multi-Arch: same
 Abi: e4edddf5f044dbe159a1d21ecaca79b4bd69195ac3341b7f2d15fb320b605954
 Status: install ok installed
 
+Package: nlohmann-json
+Version: 3.12.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 9bd7dabbe3b08ddcf29d51bce50081fcd861b85f3e6e6e581a7980c7859bc36c
+Description: JSON for Modern C++
+Status: install ok installed
+
 Package: zstd
 Version: 1.5.7
 Depends: vcpkg-cmake, vcpkg-cmake-config
@@ -281,14 +290,5 @@ Architecture: x64-linux
 Multi-Arch: same
 Abi: 023ca933c004eac7193f24dd45599bd6557436f2ed4ddb714b1325f459e6ad2e
 Description: A library for rendering TrueType fonts with SDL
-Status: install ok installed
-
-Package: nlohmann-json
-Version: 3.12.0
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 9bd7dabbe3b08ddcf29d51bce50081fcd861b85f3e6e6e581a7980c7859bc36c
-Description: JSON for Modern C++
 Status: install ok installed
 

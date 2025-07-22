@@ -48,8 +48,9 @@ void put(HashTable *table, const char *key, void *value)
     }
 
     // Key not found — insert new entry at head
+    // Key not found — insert new entry at head
     entry = malloc(sizeof(HashEntry));
-    entry->key = key;
+    entry->key = strdup(key); // Make a copy of the key
     entry->value = value;
     // Fail safe for collions in the hash leads to the same : Chaining method
     // ttable[index] → [new_entry] → [old_entry] → NULL
@@ -74,4 +75,21 @@ const char *get(HashTable *table, const char *key)
         entry = entry->next;
     }
     return NULL; // not found
+}
+
+// Free the hash table
+void free_table(HashTable *table)
+{
+    for (int i = 0; i < TABLE_SIZE; i++)
+    {
+        HashEntry *entry = table->buckets[i];
+        while (entry != NULL)
+        {
+            HashEntry *next = entry->next;
+            free(entry->key); // Free the copied key
+            free(entry);      // Free the entry
+            entry = next;
+        }
+        table->buckets[i] = NULL;
+    }
 }
