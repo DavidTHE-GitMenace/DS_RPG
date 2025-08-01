@@ -1,28 +1,22 @@
 // weapon.h
 #pragma once
-#include <SDL2/SDL.h>
-#ifdef __cplusplus
-extern "C"
+#include <SDL_image.h>
+#include <string.h>
+
+// (structs go here)
+
+// Weapon structure — raw data
+typedef struct
 {
-#endif
+    const char *name;
+    int damage;
+    SDL_Texture *sprite;
+} Weapon;
 
-    // (structs go here)
-
-    // Weapon structure — raw data
-    typedef struct
-    {
-        const char *name;
-        int damage;
-        SDL_Texture *sprite;
-    } Weapon;
-
-    // Inventory entry (optional but related)
-    typedef struct
-    {
-        Weapon *weapon;
-        int quantity;
-        SDL_Rect iconRect; // Used for UI display (optional)
-    } InventoryEntry;
-#ifdef __cplusplus
-}
-#endif
+// Inventory entry (optional but related)
+typedef struct
+{
+    Weapon *weapon;
+    int quantity;
+    SDL_Rect iconRect; // Used for UI display (optional)
+} InventoryEntry;

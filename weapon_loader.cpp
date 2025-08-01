@@ -1,7 +1,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <string>
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include "weapon.h"
 #include "hash_table.h"
 

@@ -57,77 +57,14 @@ SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
 SDL_Renderer *renderer = SDL_CreateRenderer(
     window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-HashTable *weaponTable = (HashTable *)malloc(sizeof(HashTable)); // stores all weapons by name
-init_table(weaponTable);                                         // Pass the allocated table to the function
+// World item data structure ----------------------------------------------------------------------------------------
 
-// // Insert bow into weaponTable
-// Weapon *bow = loadWeaponFromJson("weapons/bow.json", renderer);
-// put(weaponTable, "bow", bow);
+typedef struct {
+    int x, y;
+    Weapon* weapon;
+    bool pickedUp;
+} WorldItem;
 
-// // Insert sword into weaponTable
-// Weapon *bow = loadWeaponFromJson("weapons/sword.json", renderer);
-// put(weaponTable, "sword", sword);
-
-// InventoryEntry slot1 = {&bow, 1, ...};
-// InventoryEntry slot2 = {&sword1, 1, ...};
-// InventoryEntry slot3 = {&sword2, 1, ...};
-
-// InventoryEntry *Inventory = calloc(3, sizeof(InventoryEntry);
-
-// ... NULL
-// ... NULL
-// ... NULL
-
-// InventoryEntry Inventory['hotbar1'];
-// InventoryEntry Inventory['hotbar2'];
-// InventoryEntry Inventory['hotbar3'];
-
-//
-
-// int arr [3];
-// arr[0]=1
-// arr[1] = 2
-// arr[2] = 3;
-
-// InventoryEntry Inventory['hotbar1'] = slot1;
-
-// InventoryEntry Inventory['hotbar2'] = slot2;
-// InventoryEntry Inventory['hotbar3'] = slot3;
-
-// Empty Inventory
-// pickup(){
-// bow
-// if I click on the bow
-
-// Inventory['hotbar1'] = bowSlot;
-
-// sword
-//  if I click on sword2
-
-// loop through. Check if 'hotbar1' is empty.
-
-// for (int i=1; i<sizeof(InventoryEntry); i++){
-//   InventoryEntry["hotbar" + i].;
-// }
-
-// If not, check 'hotbar2'
-// if empty,
-
-// Inventory['hotbar2'] = sword2Slot;
-
-// = {slot1, slot2, slot3};
-
-// InventoryEntry Inventory['hotbar1'] = slot1;
-// InventoryEntry Inventory['hotbar2'] = slot2;
-// InventoryEntry Inventory['hotbar3'] = slot3;
-
-// Inventory temp = Inventory['hotbar1']
-// Invetory['hotbar1'] = Invetory['hotbar2']
-// Invetory['hotbar2'] = temp
-
-// table ['bow'] = bow;
-// table ['sword1'] = sword1;
-// table ['sword2'] = sword2;
 
 // Tile data structure ----------------------------------------------------------------------------------------
 typedef struct
@@ -166,6 +103,9 @@ static float camlerp(float a, float b, float t)
 int main()
 {
 
+   
+
+    
     // SDL initialization -----------------------------------------------------------------------------------------
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -204,6 +144,30 @@ int main()
 
     bool quit = false;
     SDL_Event e;
+
+    //Weapon initalization ----------------------------------------------------------------------------------------
+    HashTable *weaponTable = (HashTable *)malloc(sizeof(HashTable)); // stores all weapons by name
+    init_table(weaponTable);
+    Weapon *bow = loadWeaponFromJson("bow.json", renderer);
+    Weapon *sword = loadWeaponFromJson("sword.json", renderer);
+    Weapon *mace = loadWeaponFromJson("mace.json", renderer);
+
+    put(weaponTable, "bow", bow);
+    put(weaponTable, "sword", sword); // Pass the allocated table to the function
+    put(weaponTable, "mace", mace);
+
+    printf("%d\n", ((Weapon *)get(weaponTable, "bow"))->damage);
+
+    WorldItem weapons[2] = {
+        { worldPX + 240, worldPY + 40, (Weapon*)get(weaponTable, "bow"), false },
+        { worldPX + 120, worldPY + 60, (Weapon*)get(weaponTable, "sword"), false }
+    };
+
+    printf("bow sprite ptr: %p\n", bow->sprite);
+    printf("sword sprite ptr: %p\n", sword->sprite);
+    if (!bow->sprite) printf("BOW PNG ERROR: %s\n", IMG_GetError());
+    if (!sword->sprite) printf("SWORD PNG ERROR: %s\n", IMG_GetError());
+
 
     while (!quit)
     {
@@ -353,6 +317,9 @@ int main()
         else
             facing = UP;
 
+        SDL_Rect playerRect = { worldPX, worldPY, PLAYER_W, PLAYER_H }; // Player position in world coords
+
+
         // --- Rendering -------------------------------------------------------------------------------------------
         SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
         SDL_RenderClear(renderer);
@@ -379,9 +346,29 @@ int main()
             SDL_RenderFillRect(renderer, &pd);
         }
 
+          // Draw visible weapons
+            for (int i = 0; i < 2; ++i) {
+                if (!weapons[i].pickedUp) {
+                    SDL_Rect itemRect = { weapons[i].x - camX, weapons[i].y - camY, 48, 48 };
+                    SDL_RenderCopy(renderer, weapons[i].weapon->sprite, NULL, &itemRect);
+                }
+            }
+
+            for (int i = 0; i < 2; ++i) {
+                if (!weapons[i].pickedUp) {
+                    SDL_Rect itemRect = { weapons[i].x, weapons[i].y, 48, 48 }; // FIXED!
+                    if (SDL_HasIntersection(&playerRect, &itemRect)) {
+                        weapons[i].pickedUp = true;
+                    }
+                }
+            }
+
+
         SDL_RenderPresent(renderer);
         SDL_Delay(16); // cap ~60fps
     }
+
+      
 
     // Cleanup ----------------------------------------------------------------------------------------------
     if (texDown)
@@ -396,5 +383,6 @@ int main()
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
+
     return 0;
 }

@@ -19,6 +19,7 @@ CMakeFiles/DS_RPG.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/weapon_loader.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/weapon.h \
+ /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_image.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_main.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_stdinc.h \
@@ -245,8 +246,6 @@ CMakeFiles/DS_RPG.dir/main.cpp.o: \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_version.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_locale.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_misc.h \
- /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL.h \
- /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL_image.h \
  /mnt/c/Users/nkouk/OneDrive/Documents/Personal\ Projects/DS_RPG/build/vcpkg_installed/x64-linux/include/SDL2/SDL.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
