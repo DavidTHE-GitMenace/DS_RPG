@@ -4,6 +4,8 @@
 
 #define SDL_MAIN_HANDLED
 #include "hash_table.h"
+#include "weapon_loader.h" // Ensure this is included
+#include "weapon.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
@@ -15,6 +17,7 @@
 #include <cstddef>
 #include <random>
 #include <thread>
+#include <string.h>
 
 // Screen and tile dimensions -------------------------------------------------------------------------------
 #define SCREEN_WIDTH 800  // Viewport width in pixels
@@ -54,86 +57,14 @@ SDL_Window *window = SDL_CreateWindow("Click-to-Move Demo",
 SDL_Renderer *renderer = SDL_CreateRenderer(
     window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-// Weapon/Invetory data structure ----------------------------------------------------------------------------------------
-typedef struct
-{
-    const char *name;
-    int damage;
-    // int quanity, cooldown;
-    SDL_Texture *sprite;
-} Weapon;
+// World item data structure ----------------------------------------------------------------------------------------
 
-typedef struct
-{
-    Weapon *weapon;    // Pointer to weapon data (shared if weapon is unique)
-    int quantity;      // How many copies player has
-    SDL_Rect iconRect; // Position/size in inventory UI (optional)
-} InventoryEntry;
+typedef struct {
+    int x, y;
+    Weapon* weapon;
+    bool pickedUp;
+} WorldItem;
 
-Weapon bow = {"bow", 40, IMG_LoadTexture(renderer, "weaponAssets/Bow.png")};
-Weapon sword1 = {"sword1", 50, IMG_LoadTexture(renderer, "weaponAssets/Sword1.png")};
-Weapon sword2 = {"sword2", 70, IMG_LoadTexture(renderer, "weaponAssets/Sword2.png")};
-
-// InventoryEntry slot1 = {&bow, 1, ...};
-// InventoryEntry slot2 = {&sword1, 1, ...};
-// InventoryEntry slot3 = {&sword2, 1, ...};
-
-// InventoryEntry *Inventory = calloc(3, sizeof(InventoryEntry);
-
-// ... NULL
-// ... NULL
-// ... NULL
-
-// InventoryEntry Inventory['hotbar1'];
-// InventoryEntry Inventory['hotbar2'];
-// InventoryEntry Inventory['hotbar3'];
-
-//
-
-// int arr [3];
-// arr[0]=1
-// arr[1] = 2
-// arr[2] = 3;
-
-// InventoryEntry Inventory['hotbar1'] = slot1;
-
-// InventoryEntry Inventory['hotbar2'] = slot2;
-// InventoryEntry Inventory['hotbar3'] = slot3;
-
-// Empty Inventory
-// pickup(){
-// bow
-// if I click on the bow
-
-// Inventory['hotbar1'] = bowSlot;
-
-// sword
-//  if I click on sword2
-
-// loop through. Check if 'hotbar1' is empty.
-
-// for (int i=1; i<sizeof(InventoryEntry); i++){
-//   InventoryEntry["hotbar" + i].;
-// }
-
-// If not, check 'hotbar2'
-// if empty,
-
-// Inventory['hotbar2'] = sword2Slot;
-
-// = {slot1, slot2, slot3};
-
-// InventoryEntry Inventory['hotbar1'] = slot1;
-// InventoryEntry Inventory['hotbar2'] = slot2;
-// InventoryEntry Inventory['hotbar3'] = slot3;
-
-// Inventory temp = Inventory['hotbar1']
-// Invetory['hotbar1'] = Invetory['hotbar2']
-// Invetory['hotbar2'] = temp
-
-// table ['bow'] = bow;
-// table ['sword1'] = sword1;
-// table ['sword2'] = sword2;
 
 // Tile data structure ----------------------------------------------------------------------------------------
 typedef struct
@@ -171,7 +102,10 @@ static float camlerp(float a, float b, float t)
 
 int main()
 {
-    printf("Hi done");
+
+   
+
+    
     // SDL initialization -----------------------------------------------------------------------------------------
     // if (SDL_Init(SDL_INIT_VIDEO) != 0)
     // {
@@ -211,66 +145,90 @@ int main()
     // bool quit = false;
     // SDL_Event e;
 
-    // while (!quit)
-    // {
-    //     // --- Input & Events ----------------------------------------------------------------------------------------
-    //     while (SDL_PollEvent(&e))
-    //     {
-    //         if (e.type == SDL_QUIT)
-    //         {
-    //             quit = true;
-    //             break;
-    //         }
-    //         else if (e.type == SDL_KEYDOWN)
-    //         {
-    //             // Cancel click-to-move on keyboard input
-    //             movingToClick = false;
-    //             int dx = 0, dy = 0;
-    //             switch (e.key.keysym.sym)
-    //             {
-    //             case SDLK_UP:
-    //                 dy = -MOVE_SPEED;
-    //                 break;
-    //             case SDLK_DOWN:
-    //                 dy = MOVE_SPEED;
-    //                 break;
-    //             case SDLK_LEFT:
-    //                 dx = -MOVE_SPEED;
-    //                 break;
-    //             case SDLK_RIGHT:
-    //                 dx = MOVE_SPEED;
-    //                 break;
-    //             }
-    //             // Keyboard movement with invisible walls
-    //             worldPX = SDL_clamp(worldPX + dx, 0, WORLD_COLS * TILE_SIZE - PLAYER_W);
-    //             worldPY = SDL_clamp(worldPY + dy, 0, WORLD_ROWS * TILE_SIZE - PLAYER_H);
-    //             // Camera hybrid logic
-    //             int scrX = worldPX - camX;
-    //             int scrY = worldPY - camY;
-    //             if (scrX < MARGIN_X)
-    //                 camX = worldPX - MARGIN_X;
-    //             else if (scrX > SCREEN_WIDTH - MARGIN_X - PLAYER_W)
-    //                 camX = worldPX - (SCREEN_WIDTH - MARGIN_X - PLAYER_W);
-    //             if (scrY < MARGIN_Y)
-    //                 camY = worldPY - MARGIN_Y;
-    //             else if (scrY > SCREEN_HEIGHT - MARGIN_Y - PLAYER_H)
-    //                 camY = worldPY - (SCREEN_HEIGHT - MARGIN_Y - PLAYER_H);
-    //             camX = SDL_clamp(camX, 0, MAX_CAM_X);
-    //             camY = SDL_clamp(camY, 0, MAX_CAM_Y);
-    //         }
-    //         else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
-    //         {
-    //             // Set click-to-move target in world coordinates (centered)
-    //             int mx = e.button.x;
-    //             int my = e.button.y;
-    //             targetPX = mx + camX - PLAYER_W / 2;
-    //             targetPY = my + camY - PLAYER_H / 2;
-    //             // Clamp target within world bounds
-    //             targetPX = SDL_clamp(targetPX, 0, WORLD_COLS * TILE_SIZE - PLAYER_W);
-    //             targetPY = SDL_clamp(targetPY, 0, WORLD_ROWS * TILE_SIZE - PLAYER_H);
-    //             movingToClick = true;
-    //         }
-    //     }
+    //Weapon initalization ----------------------------------------------------------------------------------------
+    HashTable *weaponTable = (HashTable *)malloc(sizeof(HashTable)); // stores all weapons by name
+    init_table(weaponTable);
+    Weapon *bow = loadWeaponFromJson("bow.json", renderer);
+    Weapon *sword = loadWeaponFromJson("sword.json", renderer);
+    Weapon *mace = loadWeaponFromJson("mace.json", renderer);
+
+    put(weaponTable, "bow", bow);
+    put(weaponTable, "sword", sword); // Pass the allocated table to the function
+    put(weaponTable, "mace", mace);
+
+    printf("%d\n", ((Weapon *)get(weaponTable, "bow"))->damage);
+
+    WorldItem weapons[2] = {
+        { worldPX + 240, worldPY + 40, (Weapon*)get(weaponTable, "bow"), false },
+        { worldPX + 120, worldPY + 60, (Weapon*)get(weaponTable, "sword"), false }
+    };
+
+    printf("bow sprite ptr: %p\n", bow->sprite);
+    printf("sword sprite ptr: %p\n", sword->sprite);
+    if (!bow->sprite) printf("BOW PNG ERROR: %s\n", IMG_GetError());
+    if (!sword->sprite) printf("SWORD PNG ERROR: %s\n", IMG_GetError());
+
+
+    while (!quit)
+    {
+        // --- Input & Events ----------------------------------------------------------------------------------------
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+                break;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                // Cancel click-to-move on keyboard input
+                movingToClick = false;
+                int dx = 0, dy = 0;
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_UP:
+                    dy = -MOVE_SPEED;
+                    break;
+                case SDLK_DOWN:
+                    dy = MOVE_SPEED;
+                    break;
+                case SDLK_LEFT:
+                    dx = -MOVE_SPEED;
+                    break;
+                case SDLK_RIGHT:
+                    dx = MOVE_SPEED;
+                    break;
+                }
+                // Keyboard movement with invisible walls
+                worldPX = SDL_clamp(worldPX + dx, 0, WORLD_COLS * TILE_SIZE - PLAYER_W);
+                worldPY = SDL_clamp(worldPY + dy, 0, WORLD_ROWS * TILE_SIZE - PLAYER_H);
+                // Camera hybrid logic
+                int scrX = worldPX - camX;
+                int scrY = worldPY - camY;
+                if (scrX < MARGIN_X)
+                    camX = worldPX - MARGIN_X;
+                else if (scrX > SCREEN_WIDTH - MARGIN_X - PLAYER_W)
+                    camX = worldPX - (SCREEN_WIDTH - MARGIN_X - PLAYER_W);
+                if (scrY < MARGIN_Y)
+                    camY = worldPY - MARGIN_Y;
+                else if (scrY > SCREEN_HEIGHT - MARGIN_Y - PLAYER_H)
+                    camY = worldPY - (SCREEN_HEIGHT - MARGIN_Y - PLAYER_H);
+                camX = SDL_clamp(camX, 0, MAX_CAM_X);
+                camY = SDL_clamp(camY, 0, MAX_CAM_Y);
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+            {
+                // Set click-to-move target in world coordinates (centered)
+                int mx = e.button.x;
+                int my = e.button.y;
+                targetPX = mx + camX - PLAYER_W / 2;
+                targetPY = my + camY - PLAYER_H / 2;
+                // Clamp target within world bounds
+                targetPX = SDL_clamp(targetPX, 0, WORLD_COLS * TILE_SIZE - PLAYER_W);
+                targetPY = SDL_clamp(targetPY, 0, WORLD_ROWS * TILE_SIZE - PLAYER_H);
+                movingToClick = true;
+            }
+        }
 
     //     // --- Click-to-Move Logic (refactored) ------------------------------------------------
     //     if (movingToClick)
@@ -359,48 +317,72 @@ int main()
     //     else
     //         facing = UP;
 
-    //     // --- Rendering -------------------------------------------------------------------------------------------
-    //     SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
-    //     SDL_RenderClear(renderer);
-    //     for (int i = 0; i < WORLD_CAPACITY; ++i)
-    //     {
-    //         QuadtreeNode *n = &worldNodes[i];
-    //         SDL_Rect r = {n->key.x * TILE_SIZE - camX,
-    //                       n->key.y * TILE_SIZE - camY,
-    //                       TILE_SIZE, TILE_SIZE};
-    //         SDL_SetRenderDrawColor(renderer,
-    //                                n->hasTree ? 34 : 105,
-    //                                n->hasTree ? 139 : 105,
-    //                                n->hasTree ? 34 : 105,
-    //                                255);
-    //         SDL_RenderFillRect(renderer, &r);
-    //     }
-    //     SDL_Rect pd = {worldPX - camX, worldPY - camY, PLAYER_W, PLAYER_H};
-    //     SDL_Texture *curTex = (facing == DOWN ? texDown : (facing == LEFT ? texLeft : (facing == RIGHT ? texRight : texUp)));
-    //     if (curTex)
-    //         SDL_RenderCopy(renderer, curTex, NULL, &pd);
-    //     else
-    //     {
-    //         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    //         SDL_RenderFillRect(renderer, &pd);
-    //     }
+        SDL_Rect playerRect = { worldPX, worldPY, PLAYER_W, PLAYER_H }; // Player position in world coords
 
-    //     SDL_RenderPresent(renderer);
-    //     SDL_Delay(16); // cap ~60fps
-    // }
 
-    // // Cleanup ----------------------------------------------------------------------------------------------
-    // if (texDown)
-    //     SDL_DestroyTexture(texDown);
-    // if (texLeft)
-    //     SDL_DestroyTexture(texLeft);
-    // if (texRight)
-    //     SDL_DestroyTexture(texRight);
-    // if (texUp)
-    //     SDL_DestroyTexture(texUp);
-    // SDL_DestroyRenderer(renderer);
-    // SDL_DestroyWindow(window);
-    // IMG_Quit();
-    // SDL_Quit();
+        // --- Rendering -------------------------------------------------------------------------------------------
+        SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
+        SDL_RenderClear(renderer);
+        for (int i = 0; i < WORLD_CAPACITY; ++i)
+        {
+            QuadtreeNode *n = &worldNodes[i];
+            SDL_Rect r = {n->key.x * TILE_SIZE - camX,
+                          n->key.y * TILE_SIZE - camY,
+                          TILE_SIZE, TILE_SIZE};
+            SDL_SetRenderDrawColor(renderer,
+                                   n->hasTree ? 34 : 105,
+                                   n->hasTree ? 139 : 105,
+                                   n->hasTree ? 34 : 105,
+                                   255);
+            SDL_RenderFillRect(renderer, &r);
+        }
+        SDL_Rect pd = {worldPX - camX, worldPY - camY, PLAYER_W, PLAYER_H};
+        SDL_Texture *curTex = (facing == DOWN ? texDown : (facing == LEFT ? texLeft : (facing == RIGHT ? texRight : texUp)));
+        if (curTex)
+            SDL_RenderCopy(renderer, curTex, NULL, &pd);
+        else
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderFillRect(renderer, &pd);
+        }
+
+          // Draw visible weapons
+            for (int i = 0; i < 2; ++i) {
+                if (!weapons[i].pickedUp) {
+                    SDL_Rect itemRect = { weapons[i].x - camX, weapons[i].y - camY, 48, 48 };
+                    SDL_RenderCopy(renderer, weapons[i].weapon->sprite, NULL, &itemRect);
+                }
+            }
+
+            for (int i = 0; i < 2; ++i) {
+                if (!weapons[i].pickedUp) {
+                    SDL_Rect itemRect = { weapons[i].x, weapons[i].y, 48, 48 }; // FIXED!
+                    if (SDL_HasIntersection(&playerRect, &itemRect)) {
+                        weapons[i].pickedUp = true;
+                    }
+                }
+            }
+
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(16); // cap ~60fps
+    }
+
+      
+
+    // Cleanup ----------------------------------------------------------------------------------------------
+    if (texDown)
+        SDL_DestroyTexture(texDown);
+    if (texLeft)
+        SDL_DestroyTexture(texLeft);
+    if (texRight)
+        SDL_DestroyTexture(texRight);
+    if (texUp)
+        SDL_DestroyTexture(texUp);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    IMG_Quit();
+    SDL_Quit();
+
     return 0;
 }

@@ -28,7 +28,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 # ─── Executable ────────────────────────────────────────────────────────────────
 add_executable(${PROJECT_NAME}
     main.cpp
-    hash_table.c
+    hash_table.cpp
     weapon_loader.cpp
 )
 

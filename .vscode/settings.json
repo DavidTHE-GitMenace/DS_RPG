@@ -2,5 +2,8 @@
   "cmake.configureSettings": {
     "CMAKE_TOOLCHAIN_FILE": "/mnt/c/Users/nkouk/vcpkg/scripts/buildsystems/vcpkg.cmake",
     "VCPKG_TARGET_TRIPLET": "x64-linux"
+  },
+  "files.associations": {
+    "string.h": "c"
   }
 }
